@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JM Ali Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-shell">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-mark">JM</div>
+                <div class="brand-text">
+                    <strong>JM Ali</strong>
+                    <span>Admin Panel</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu" aria-label="Sidebar navigation">
+                <a class="nav-item active" href="#">Overview</a>
+                <a class="nav-item" href="#">Products</a>
+                <a class="nav-item" href="#">Orders</a>
+                <a class="nav-item" href="#">Customers</a>
+                <a class="nav-item" href="#">Inventory</a>
+                <a class="nav-item" href="#">Reports</a>
+                <a class="nav-item" href="#">Settings</a>
+            </nav>
+
+            <div class="sidebar-card">
+                <p>Today</p>
+                <strong>18</strong>
+                <span>Orders processed</span>
+            </div>
+        </aside>
+
+        <main class="main-panel">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Farm Dashboard</p>
+                    <h1>Welcome back, Admin</h1>
+                </div>
+
+                <div class="topbar-actions">
+                    <button class="ghost-btn">Export</button>
+                    <button class="primary-btn">+ New Product</button>
+                </div>
+            </header>
+
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <p class="label">Total Sales</p>
+                    <div class="value">RM 24,580</div>
+                    <span class="trend">+12.4%</span>
+                </div>
+
+                <div class="stat-card">
+                    <p class="label">Orders</p>
+                    <div class="value">1,240</div>
+                    <span class="trend">+8.1%</span>
+                </div>
+
+                <div class="stat-card">
+                    <p class="label">Customers</p>
+                    <div class="value">850</div>
+                    <span class="trend">+15.3%</span>
+                </div>
+
+                <div class="stat-card">
+                    <p class="label">Inventory</p>
+                    <div class="value">94%</div>
+                    <span class="trend">Healthy</span>
+                </div>
+            </section>
+
+            <section class="main-grid">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Sales Overview</h2>
+                        <span>Last 7 days</span>
+                    </div>
+
+                    <div class="chart" aria-label="Sales chart">
+                        <span data-label="Mon" style="--h: 45%;"></span>
+                        <span data-label="Tue" style="--h: 60%;"></span>
+                        <span data-label="Wed" style="--h: 55%;"></span>
+                        <span data-label="Thu" style="--h: 76%;"></span>
+                        <span data-label="Fri" style="--h: 82%;"></span>
+                        <span data-label="Sat" style="--h: 70%;"></span>
+                        <span data-label="Sun" style="--h: 90%;"></span>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Top Categories</h2>
+                    </div>
+
+                    <ul class="category-list">
+                        <li><span>Vegetables</span><strong>42%</strong></li>
+                        <li><span>Fruits</span><strong>28%</strong></li>
+                        <li><span>Seafood</span><strong>19%</strong></li>
+                        <li><span>Household</span><strong>11%</strong></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="table-grid">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Recent Orders</h2>
+                        <a href="#">View all</a>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#1024</td>
+                                <td>Rahim</td>
+                                <td><span class="status paid">Paid</span></td>
+                                <td>RM 180</td>
+                            </tr>
+                            <tr>
+                                <td>#1025</td>
+                                <td>Sadia</td>
+                                <td><span class="status pending">Pending</span></td>
+                                <td>RM 120</td>
+                            </tr>
+                            <tr>
+                                <td>#1026</td>
+                                <td>Karim</td>
+                                <td><span class="status paid">Paid</span></td>
+                                <td>RM 210</td>
+                            </tr>
+                            <tr>
+                                <td>#1027</td>
+                                <td>Nora</td>
+                                <td><span class="status paid">Paid</span></td>
+                                <td>RM 160</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Inventory Alerts</h2>
+                    </div>
+
+                    <div class="alert-list">
+                        <div class="alert-item">
+                            <span class="alert-dot"></span>
+                            <div>
+                                <strong>Apples low stock</strong>
+                                <span>Only 12 packs left</span>
+                            </div>
+                        </div>
+
+                        <div class="alert-item warning">
+                            <span class="alert-dot"></span>
+                            <div>
+                                <strong>Leafy greens</strong>
+                                <span>Reorder recommended</span>
+                            </div>
+                        </div>
+
+                        <div class="alert-item">
+                            <span class="alert-dot"></span>
+                            <div>
+                                <strong>Fresh fish delivery</strong>
+                                <span>Scheduled for tomorrow</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
