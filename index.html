@@ -1,262 +1,378 @@
 <!DOCTYPE html>
-
-<!--
-=====================================================
-JM ALI WEBSITE
-Version : 1.0
-Lesson : 1
-
-This is our homepage.
-
-Every page on our website begins here.
-
-Don't worry if some code looks confusing.
-I'll explain every single part.
-=====================================================
--->
-
 <html lang="en">
-
 <head>
-
-    <!-- Character encoding -->
-    <meta charset="UTF-8">
-
-    <!-- Makes website responsive -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Website title -->
-    <title>JM Ali</title>
-
-    <!-- Link our CSS file -->
-    <link rel="stylesheet" href="./css/style.css">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JM Ali | Fresh Groceries</title>
+    <link rel="stylesheet" href="./css/style.css" />
 </head>
-
 <body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="logo-area" aria-label="JM Ali home">
+                <img src="./images/logo/logo.png" alt="JM Ali Logo" />
+                <div>
+                    <h1>JM Ali</h1>
+                    <p>Pembekal Sayur Segar</p>
+                </div>
+            </div>
 
-    <!-- ======================================
-         HEADER
-         This is the top of the website.
-         This area is shown to every customer.
-    ======================================= -->
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="#home">Home</a>
+                <a href="#products">Products</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </nav>
 
-    <header>
-
-    <div class="logo-area">
-
-        <img src="./images/logo/logo.png" alt="JM Ali Logo">
-
-        <div>
-
-            <h1>JM Ali</h1>
-
-            <p>Pembekal Sayur Segar</p>
-
+            <button id="open-customer-order" class="primary-btn header-btn" type="button">Place Order</button>
         </div>
-
-    </div>
-
     </header>
 
-    <!-- ======================================
-         NAVIGATION BAR
-         This helps shoppers move around the store.
-    ======================================= -->
+    <main id="home">
+        <section class="hero">
+            <div class="container hero-inner">
+                <div class="hero-copy">
+                    <span class="eyebrow">Fresh market everyday</span>
+                    <h2>Quality groceries for your home and family.</h2>
+                    <p>Fruits, vegetables, seafood, and household essentials delivered fresh from trusted farm suppliers.</p>
 
-    <nav>
+                    <div class="hero-actions">
+                        <a href="#products" class="primary-btn">Browse Products</a>
+                        <button id="open-customer-order-secondary" class="secondary-btn" type="button">Contact Us</button>
+                    </div>
 
-        <a href="#">Home</a>
-
-        <a href="#">Products</a>
-
-        <a href="#">About</a>
-
-        <a href="#">Contact</a>
-
-    </nav>
-
-    <!-- ======================================
-         MAIN CONTENT
-    ======================================= -->
-
-    <main>
-
-    <!-- ===============================
-         HERO SECTION
-         This is the first large banner people see.
-         It introduces the brand and the products.
-    ================================ -->
-
-    <section class="hero">
-
-        <h2>Fresh Groceries Delivered Every Day</h2>
-
-        <p>
-
-            Fruits • Vegetables • Seafood • Meat • Household Items
-
-        </p>
-
-        <button>Browse Products</button>
-
-        <button class="secondary-button">Contact Us</button>
-
-    </section>
-
-    <!-- ===============================
-         CUSTOMER ORDER CTA
-         This button opens the order form for shoppers.
-    ================================ -->
-
-    <section class="customer-order-cta">
-        <div>
-            <h2>Order from JM Ali</h2>
-            <p>Send your details and item list, and our team will contact you as soon as possible.</p>
-        </div>
-        <button id="open-customer-order" type="button">Place Order</button>
-    </section>
-
-    <section class="categories">
-
-        <h2>Our Categories</h2>
-
-        <div class="category-container">
-
-            <a href="#vegetables" class="category-link">
-
-             <div class="card">
-
-            🥬
-
-            <h3>Vegetables</h3>
-
-            <p>Fresh vegetables every day.</p>
-
-            </div>
-
-            </a>
-
-            <a href="#fruits" class="category-link">
-
-                <div class="card">
-
-                    🍎
-
-                    <h3>Fruits</h3>
-
-                    <p>Sweet and fresh fruits.</p>
-
-                </div>
-            </a>
-
-            <a href="#seafood" class="category-link">
-
-                <div class="card">
-
-                    🐟
-
-                    <h3>Seafood</h3>
-
-                    <p>Fresh seafood daily.</p>
-
+                    <ul class="hero-meta" aria-label="Store highlights">
+                        <li>Same-day delivery</li>
+                        <li>Freshly sourced</li>
+                        <li>Affordable pricing</li>
+                    </ul>
                 </div>
 
-            </a>
+                <div class="hero-panel" aria-label="Daily market highlight">
+                    <div class="hero-badge">Today’s picks</div>
+                    <div class="hero-product-card">
+                        <img src="./images/products/fruit/red_apple.avif" alt="Fresh apples" />
+                        <div>
+                            <h3>Fresh Apple</h3>
+                            <p>RM 5.60 / kg</p>
+                        </div>
+                    </div>
+                    <div class="hero-product-card muted">
+                        <img src="./images/products/vegetable/broccoli.jpg" alt="Fresh broccoli" />
+                        <div>
+                            <h3>Fresh Broccoli</h3>
+                            <p>RM 5.60 / kg</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        </div>
+        <section class="trust-strip">
+            <div class="container trust-grid">
+                <div>
+                    <strong>500+</strong>
+                    <span>Happy customers</span>
+                </div>
+                <div>
+                    <strong>Daily</strong>
+                    <span>Fresh stock updates</span>
+                </div>
+                <div>
+                    <strong>4.9/5</strong>
+                    <span>Customer rating</span>
+                </div>
+                <div>
+                    <strong>24/7</strong>
+                    <span>Order support</span>
+                </div>
+            </div>
+        </section>
 
-    </section>
+        <section class="customer-order-cta container">
+            <div>
+                <span class="eyebrow light">Quick order</span>
+                <h2>Order from JM Ali</h2>
+                <p>Send your details and item list, and our team will contact you as soon as possible.</p>
+            </div>
+            <button id="open-customer-order-cta" class="primary-btn" type="button">Place Order</button>
+        </section>
 
-    <!-- ======================================
-     FEATURED PRODUCTS
-     These are the main items shown to customers.
-     Products can be added or updated by the admin later.
-    ====================================== -->
-
-    <section class="featured">
-
-        <h2>Featured Products</h2>
-
-        <div class="category-container">
-
-            <div class="card">
-
-                <img src="images/products/fruit/tomato.jpg" alt="Fresh Tomatoes">
-
-                <h3>Fresh Tomatoes</h3>
-
-                <p>RM 4.90 / kg</p>
-
-                <button>Add to Cart</button>
-
+        <section class="categories container" id="products">
+            <div class="section-heading">
+                <span class="eyebrow">Shop by category</span>
+                <h2>Fresh favorites for every table</h2>
             </div>
 
-          <div class="card">
+            <div class="category-container">
+                <a href="#vegetables" class="category-link">
+                    <article class="category-card">
+                        <span class="category-icon">🥬</span>
+                        <h3>Vegetables</h3>
+                        <p>Fresh vegetables every day.</p>
+                    </article>
+                </a>
 
-                <img src="images/products/vegetable/carrot.webp" alt="Fresh Carrots">
+                <a href="#fruits" class="category-link">
+                    <article class="category-card">
+                        <span class="category-icon">🍎</span>
+                        <h3>Fruits</h3>
+                        <p>Sweet and fresh fruits.</p>
+                    </article>
+                </a>
 
-                <h3>Fresh Carrots</h3>
+                <a href="#seafood" class="category-link">
+                    <article class="category-card">
+                        <span class="category-icon">🐟</span>
+                        <h3>Seafood</h3>
+                        <p>Fresh seafood daily.</p>
+                    </article>
+                </a>
+            </div>
+        </section>
 
-                <p>RM 3.20 / kg</p>
+        <section class="featured container">
+            <div class="section-heading split-heading">
+                <div>
+                    <span class="eyebrow">Featured products</span>
+                    <h2>Popular picks this week</h2>
+                </div>
+                <a href="#products" class="text-link">View all items</a>
+            </div>
 
-                <button>Add to Cart</button>
+            <div class="category-container" aria-label="Featured products">
+                <div class="card">
+                    <img src="./images/products/fruit/tomato.jpg" alt="Fresh Tomatoes" />
+                    <div class="card-body">
+                        <h3>Fresh Tomatoes</h3>
+                        <p>RM 4.90 / kg</p>
+                        <button type="button">Add to Cart</button>
+                    </div>
+                </div>
 
-          </div>
+                <div class="card">
+                    <img src="./images/products/vegetable/carrot.webp" alt="Fresh Carrots" />
+                    <div class="card-body">
+                        <h3>Fresh Carrots</h3>
+                        <p>RM 3.20 / kg</p>
+                        <button type="button">Add to Cart</button>
+                    </div>
+                </div>
 
-         <div class="card">
+                <div class="card">
+                    <img src="./images/products/vegetable/broccoli.jpg" alt="Fresh Broccoli" />
+                    <div class="card-body">
+                        <h3>Fresh Broccoli</h3>
+                        <p>RM 5.60 / kg</p>
+                        <button type="button">Add to Cart</button>
+                    </div>
+                </div>
 
-                <img src="images/products/vegetable/broccoli.jpg" alt="Fresh Broccoli">
+                <div class="card">
+                    <img src="./images/products/vegetable/cabbage.jpg" alt="Fresh Cabbage" />
+                    <div class="card-body">
+                        <h3>Fresh Cabbage</h3>
+                        <p>RM 5.60 / kg</p>
+                        <button type="button">Add to Cart</button>
+                    </div>
+                </div>
 
-                <h3>Fresh Broccoli</h3>
+                <div class="card">
+                    <img src="./images/products/fruit/cucumber.jpg" alt="Fresh Cucumber" />
+                    <div class="card-body">
+                        <h3>Fresh Cucumber</h3>
+                        <p>RM 5.60 / kg</p>
+                        <button type="button">Add to Cart</button>
+                    </div>
+                </div>
 
-                <p>RM 5.60 / kg</p>
+                <div class="card">
+                    <img src="./images/products/vegetable/garlic.jpg" alt="Fresh Garlic" />
+                    <div class="card-body">
+                        <h3>Fresh Garlic</h3>
+                        <p>RM 5.60 / kg</p>
+                        <button type="button">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                <button>Add to Cart</button>
+        <section id="vegetables" class="product-section container">
+            <div class="section-heading split-heading">
+                <div>
+                    <span class="eyebrow">Vegetables</span>
+                    <h2>Garden goodness</h2>
+                </div>
+            </div>
+            <div class="product-grid">
+                <div class="card">
+                    <img src="./images/products/vegetable/sweet_potato.jpg" alt="Fresh Sweet Potato" />
+                    <div class="card-body">
+                        <h3>Fresh Sweet Potato</h3>
+                        <p>RM 5.60 / kg</p>
+                        <button type="button">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./images/products/vegetable/onion.jpg" alt="Fresh Onion" />
+                    <div class="card-body">
+                        <h3>Fresh Onion</h3>
+                        <p>RM 5.60 / kg</p>
+                        <button type="button">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./images/products/vegetable/potato.webp" alt="Fresh Potato" />
+                    <div class="card-body">
+                        <h3>Fresh Potato</h3>
+                        <p>RM 5.60 / kg</p>
+                        <button type="button">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-         </div>
+        <section id="fruits" class="product-section container">
+            <div class="section-heading split-heading">
+                <div>
+                    <span class="eyebrow">Fruits</span>
+                    <h2>Sweet seasonal picks</h2>
+                </div>
+            </div>
+            <div class="product-grid">
+                <div class="card">
+                    <img src="./images/products/fruit/watermelon.jpg" alt="Fresh Watermelon" />
+                    <div class="card-body">
+                        <h3>Fresh Watermelon</h3>
+                        <p>RM 5.60 / kg</p>
+                        <button type="button">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./images/products/fruit/mango.jpg" alt="Fresh Mango" />
+                    <div class="card-body">
+                        <h3>Fresh Mango</h3>
+                        <p>RM 5.60 / kg</p>
+                        <button type="button">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./images/products/fruit/pineapple.webp" alt="Fresh Pineapple" />
+                    <div class="card-body">
+                        <h3>Fresh Pineapple</h3>
+                        <p>RM 5.60 / kg</p>
+                        <button type="button">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-         <div class="card">
+        <section id="seafood" class="product-section container">
+            <div class="section-heading split-heading">
+                <div>
+                    <span class="eyebrow">Seafood</span>
+                    <h2>Fresh from the coast</h2>
+                </div>
+            </div>
+            <div class="product-grid">
+                <div class="card">
+                    <img src="./images/products/seafood/bluefin_tuna.jpg" alt="Fresh Tuna" />
+                    <div class="card-body">
+                        <h3>Fresh Tuna</h3>
+                        <p>RM 5.60 / kg</p>
+                        <button type="button">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            <img src="images/products/vegetable/cabbage.jpg" alt="Fresh Cabbage">
+        <section class="benefits container" id="about">
+            <div class="section-heading">
+                <span class="eyebrow">Why choose us</span>
+                <h2>Built for everyday freshness</h2>
+            </div>
 
-            <h3>Fresh Cabbage</h3>
+            <div class="benefits-grid">
+                <article>
+                    <span>🌿</span>
+                    <h3>Farm Fresh</h3>
+                    <p>We source quality produce from trusted growers and local suppliers.</p>
+                </article>
+                <article>
+                    <span>🚚</span>
+                    <h3>Fast Delivery</h3>
+                    <p>Receive your order quickly with dependable local delivery support.</p>
+                </article>
+                <article>
+                    <span>💬</span>
+                    <h3>Friendly Service</h3>
+                    <p>Our team is ready to help with custom orders and product guidance.</p>
+                </article>
+            </div>
+        </section>
+    </main>
 
-            <p>RM 5.60 / kg</p>
-
-            <button>Add to Cart</button>
-
+    <footer class="site-footer" id="contact">
+        <div class="container footer-inner">
+            <div>
+                <h3>JM Ali</h3>
+                <p>Pembekal Sayur Segar</p>
+            </div>
+            <div>
+                <p>Fresh groceries delivered with care.</p>
+            </div>
+            <div>
+                <p>© 2026 JM Ali. All Rights Reserved.</p>
+            </div>
         </div>
+    </footer>
 
-            <div class="card">
+    <div id="customer-order-modal" class="customer-order-modal hidden" aria-hidden="true">
+        <div class="customer-order-form-panel">
+            <div class="customer-order-header">
+                <h2>Place Your Order</h2>
+                <button type="button" id="close-customer-order" class="close-order-modal" aria-label="Close order form">×</button>
+            </div>
 
-            <img src="images/products/fruit/cucumber.jpg" alt="Fresh Cucumber">
+            <form id="customer-order-form">
+                <div class="customer-order-grid">
+                    <label>
+                        Full Name
+                        <input id="customer-name" type="text" placeholder="Your name" required />
+                    </label>
 
-            <h3>Fresh Cucumber</h3>
+                    <label>
+                        Phone Number
+                        <input id="customer-phone" type="tel" placeholder="012-3456789" required />
+                    </label>
 
-            <p>RM 5.60 / kg</p>
+                    <label class="full-width">
+                        Delivery Address
+                        <textarea id="customer-address" rows="3" placeholder="Your address" required></textarea>
+                    </label>
 
-            <button>Add to Cart</button>
+                    <label class="full-width">
+                        Order Items
+                        <textarea id="customer-order-items" rows="3" placeholder="Example: 2 kg tomatoes, 1 kg carrots" required></textarea>
+                    </label>
 
+                    <label class="full-width">
+                        Notes / Delivery Instructions
+                        <textarea id="customer-order-notes" rows="2" placeholder="Optional"></textarea>
+                    </label>
+                </div>
+
+                <div class="customer-order-actions">
+                    <button type="button" id="cancel-customer-order" class="secondary-order-button">Cancel</button>
+                    <button type="submit" class="primary-order-button">Send Order</button>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="card">
-
-            <img src="images/products/vegetable/garlic.jpg" alt="Fresh Garlic">
-
-            <h3>Fresh Garlic</h3>
-
-            <p>RM 5.60 / kg</p>
-
-            <button>Add to Cart</button>
-
-        </div>
-
-        <div class="card">
-
-            <img src="images/products/fruit/mango.jpg" alt="Fresh Mango">
-
-            <h3>Fresh Mango</h3>
+    <script src="./js/script.js"></script>
+</body>
+</html>
 
             <p>RM 5.60 / kg</p>
 

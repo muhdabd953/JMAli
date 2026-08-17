@@ -21,13 +21,17 @@ a {
 }
 
 .sidebar {
+    position: sticky;
+    top: 0;
     width: 260px;
+    height: 100vh;
     background: linear-gradient(180deg, #173c2c 0%, #10281f 100%);
     color: #ffffff;
     padding: 28px 20px;
     display: flex;
     flex-direction: column;
     gap: 24px;
+    align-self: flex-start;
 }
 
 .brand {
@@ -701,7 +705,9 @@ a {
     }
 
     .sidebar {
+        position: static;
         width: 100%;
+        height: auto;
     }
 
     .main-grid,
