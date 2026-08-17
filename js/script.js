@@ -42,20 +42,20 @@ const defaultOrders = [
 ];
 
 const defaultProducts = [
-    { name: "Fresh Tomatoes", price: "RM 4.90 / kg", image: "images/products/fruit/tomato.jpg", category: "Fruits" },
-    { name: "Fresh Carrots", price: "RM 3.20 / kg", image: "images/products/vegetable/carrot.webp", category: "Vegetables" },
-    { name: "Fresh Broccoli", price: "RM 5.60 / kg", image: "images/products/vegetable/broccoli.jpg", category: "Vegetables" },
-    { name: "Fresh Cabbage", price: "RM 5.60 / kg", image: "images/products/vegetable/cabbage.jpg", category: "Vegetables" },
-    { name: "Fresh Cucumber", price: "RM 5.60 / kg", image: "images/products/fruit/cucumber.jpg", category: "Fruits" },
-    { name: "Fresh Garlic", price: "RM 5.60 / kg", image: "images/products/vegetable/garlic.jpg", category: "Vegetables" },
-    { name: "Fresh Mango", price: "RM 5.60 / kg", image: "images/products/fruit/mango.jpg", category: "Fruits" },
-    { name: "Fresh Onion", price: "RM 5.60 / kg", image: "images/products/vegetable/onion.jpg", category: "Vegetables" },
-    { name: "Fresh Pineapple", price: "RM 5.60 / kg", image: "images/products/fruit/pineapple.webp", category: "Fruits" },
-    { name: "Fresh Potato", price: "RM 5.60 / kg", image: "images/products/vegetable/potato.webp", category: "Vegetables" },
-    { name: "Fresh Apple", price: "RM 5.60 / kg", image: "images/products/fruit/red_apple.avif", category: "Fruits" },
-    { name: "Fresh Sweet Potato", price: "RM 5.60 / kg", image: "images/products/vegetable/sweet_potato.jpg", category: "Vegetables" },
-    { name: "Fresh Watermelon", price: "RM 5.60 / kg", image: "images/products/fruit/watermelon.jpg", category: "Fruits" },
-    { name: "Fresh Tuna", price: "RM 5.60 / kg", image: "images/products/seafood/bluefin_tuna.jpg", category: "Seafood" }
+    { name: "Fresh Tomatoes", price: "RM 4.90 / kg", image: "./images/products/fruit/tomato.jpg", category: "Fruits" },
+    { name: "Fresh Carrots", price: "RM 3.20 / kg", image: "./images/products/vegetable/carrot.webp", category: "Vegetables" },
+    { name: "Fresh Broccoli", price: "RM 5.60 / kg", image: "./images/products/vegetable/broccoli.jpg", category: "Vegetables" },
+    { name: "Fresh Cabbage", price: "RM 5.60 / kg", image: "./images/products/vegetable/cabbage.jpg", category: "Vegetables" },
+    { name: "Fresh Cucumber", price: "RM 5.60 / kg", image: "./images/products/fruit/cucumber.jpg", category: "Fruits" },
+    { name: "Fresh Garlic", price: "RM 5.60 / kg", image: "./images/products/vegetable/garlic.jpg", category: "Vegetables" },
+    { name: "Fresh Mango", price: "RM 5.60 / kg", image: "./images/products/fruit/mango.jpg", category: "Fruits" },
+    { name: "Fresh Onion", price: "RM 5.60 / kg", image: "./images/products/vegetable/onion.jpg", category: "Vegetables" },
+    { name: "Fresh Pineapple", price: "RM 5.60 / kg", image: "./images/products/fruit/pineapple.webp", category: "Fruits" },
+    { name: "Fresh Potato", price: "RM 5.60 / kg", image: "./images/products/vegetable/potato.webp", category: "Vegetables" },
+    { name: "Fresh Apple", price: "RM 5.60 / kg", image: "./images/products/fruit/red_apple.avif", category: "Fruits" },
+    { name: "Fresh Sweet Potato", price: "RM 5.60 / kg", image: "./images/products/vegetable/sweet_potato.jpg", category: "Vegetables" },
+    { name: "Fresh Watermelon", price: "RM 5.60 / kg", image: "./images/products/fruit/watermelon.jpg", category: "Fruits" },
+    { name: "Fresh Tuna", price: "RM 5.60 / kg", image: "./images/products/seafood/bluefin_tuna.jpg", category: "Seafood" }
 ];
 
 // ================================
@@ -198,7 +198,7 @@ function renderAdminProducts() {
 
     list.innerHTML = products.map((product, index) => `
         <tr>
-            <td><img src="${product.image || "images/products/fruit/red_apple.avif"}" alt="${product.name}"></td>
+            <td><img src="${product.image || "./images/products/fruit/red_apple.avif"}" alt="${product.name}"></td>
             <td>${product.name}</td>
             <td>${normalizeCategory(product.category)}</td>
             <td>${product.price}</td>
