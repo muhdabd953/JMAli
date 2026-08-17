@@ -38,6 +38,7 @@ I'll explain every single part.
     <!-- ======================================
          HEADER
          This is the top of the website.
+         This area is shown to every customer.
     ======================================= -->
 
     <header>
@@ -60,6 +61,7 @@ I'll explain every single part.
 
     <!-- ======================================
          NAVIGATION BAR
+         This helps shoppers move around the store.
     ======================================= -->
 
     <nav>
@@ -82,8 +84,8 @@ I'll explain every single part.
 
     <!-- ===============================
          HERO SECTION
-         This is the first section people
-         see after the menu.
+         This is the first large banner people see.
+         It introduces the brand and the products.
     ================================ -->
 
     <section class="hero">
@@ -103,8 +105,17 @@ I'll explain every single part.
     </section>
 
     <!-- ===============================
-         CATEGORIES
+         CUSTOMER ORDER CTA
+         This button opens the order form for shoppers.
     ================================ -->
+
+    <section class="customer-order-cta">
+        <div>
+            <h2>Order from JM Ali</h2>
+            <p>Send your details and item list, and our team will contact you as soon as possible.</p>
+        </div>
+        <button id="open-customer-order" type="button">Place Order</button>
+    </section>
 
     <section class="categories">
 
@@ -159,6 +170,8 @@ I'll explain every single part.
 
     <!-- ======================================
      FEATURED PRODUCTS
+     These are the main items shown to customers.
+     Products can be added or updated by the admin later.
     ====================================== -->
 
     <section class="featured">
@@ -383,6 +396,7 @@ I'll explain every single part.
 
     <!-- ======================================
          FOOTER
+         This is the bottom section of the website.
     ======================================= -->
 
     <footer>
@@ -395,6 +409,49 @@ I'll explain every single part.
         </p>
 
     </footer>
+
+    <div id="customer-order-modal" class="customer-order-modal hidden" aria-hidden="true">
+        <div class="customer-order-form-panel">
+            <div class="customer-order-header">
+                <h2>Place Your Order</h2>
+                <button type="button" id="close-customer-order" class="close-order-modal" aria-label="Close order form">×</button>
+            </div>
+
+            <form id="customer-order-form">
+                <div class="customer-order-grid">
+                    <label>
+                        Full Name
+                        <input id="customer-name" type="text" placeholder="Your name" required>
+                    </label>
+
+                    <label>
+                        Phone Number
+                        <input id="customer-phone" type="tel" placeholder="012-3456789" required>
+                    </label>
+
+                    <label class="full-width">
+                        Delivery Address
+                        <textarea id="customer-address" rows="3" placeholder="Your address" required></textarea>
+                    </label>
+
+                    <label class="full-width">
+                        Order Items
+                        <textarea id="customer-order-items" rows="3" placeholder="Example: 2 kg tomatoes, 1 kg carrots" required></textarea>
+                    </label>
+
+                    <label class="full-width">
+                        Notes / Delivery Instructions
+                        <textarea id="customer-order-notes" rows="2" placeholder="Optional"></textarea>
+                    </label>
+                </div>
+
+                <div class="customer-order-actions">
+                    <button type="button" id="cancel-customer-order" class="secondary-order-button">Cancel</button>
+                    <button type="submit" class="primary-order-button">Send Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Link JavaScript -->
 

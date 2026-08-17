@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
+    <!-- ======================================
+         ADMIN DASHBOARD LAYOUT
+         This is the main control panel for staff.
+         It helps manage products, prices, and orders.
+    ======================================= -->
     <div class="admin-shell">
         <aside class="sidebar">
             <div class="brand">
@@ -43,7 +48,7 @@
 
                 <div class="topbar-actions">
                     <button class="ghost-btn">Export</button>
-                    <button class="primary-btn">+ New Product</button>
+                    <button id="open-product-form" class="primary-btn" type="button">+ New Product</button>
                 </div>
             </header>
 
@@ -102,6 +107,115 @@
                         <li><span>Seafood</span><strong>19%</strong></li>
                         <li><span>Household</span><strong>11%</strong></li>
                     </ul>
+                </div>
+            </section>
+
+            <!-- ======================================
+                 PRODUCT MANAGEMENT
+                 This section lets admin add, edit, and delete products.
+            ======================================= -->
+            <section class="panel product-management-panel">
+                <div class="panel-header">
+                    <h2>Manage Products</h2>
+                    <button id="open-product-form" class="primary-btn" type="button">+ New Product</button>
+                </div>
+
+                <div class="toolbar-row">
+                    <input id="product-search" type="search" placeholder="Search products..." aria-label="Search products">
+                    <select id="product-category-filter" aria-label="Filter products by category">
+                        <option value="All">All categories</option>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="Seafood">Seafood</option>
+                    </select>
+                </div>
+
+                <div class="product-list-wrapper">
+                    <table class="product-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-product-list"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ======================================
+                 STAFF NOTIFICATIONS
+                 These alerts appear when a customer submits an order.
+            ======================================= -->
+            <section class="panel notification-panel">
+                <div class="panel-header">
+                    <h2>Staff Notifications</h2>
+                </div>
+
+                <ul id="staff-notification-list" class="notification-list"></ul>
+            </section>
+
+            <!-- ======================================
+                 ORDER DASHBOARD
+                 This section shows customer orders and statuses.
+            ======================================= -->
+            <section class="orders-dashboard panel">
+                <div class="panel-header">
+                    <h2>Order Dashboard</h2>
+                    <div class="order-header-actions">
+                        <button class="ghost-btn small-btn" type="button">Export CSV</button>
+                        <button id="open-order-form" class="primary-btn small-btn" type="button">+ New Order</button>
+                    </div>
+                </div>
+
+                <div class="toolbar-row order-toolbar">
+                    <input id="order-search" type="search" placeholder="Search customer or order..." aria-label="Search orders">
+                    <select id="order-status-filter" aria-label="Filter orders by status">
+                        <option value="All">All statuses</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="order-summary-grid">
+                    <div class="summary-card success">
+                        <span>Paid Orders</span>
+                        <strong>142</strong>
+                    </div>
+                    <div class="summary-card warning">
+                        <span>Pending</span>
+                        <strong>18</strong>
+                    </div>
+                    <div class="summary-card info">
+                        <span>Shipped</span>
+                        <strong>96</strong>
+                    </div>
+                    <div class="summary-card danger">
+                        <span>Cancelled</span>
+                        <strong>7</strong>
+                    </div>
+                </div>
+
+                <div class="order-table-wrapper">
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body"></tbody>
+                    </table>
                 </div>
             </section>
 
@@ -184,5 +298,104 @@
             </section>
         </main>
     </div>
+
+    <div id="product-modal" class="product-modal hidden" aria-hidden="true">
+        <div class="product-modal-content">
+            <div class="modal-header">
+                <h2>Add New Product</h2>
+                <button type="button" id="close-product-modal" class="close-modal" aria-label="Close product form">×</button>
+            </div>
+
+            <form id="product-form">
+                <div class="product-form-grid">
+                    <label>
+                        Product Name
+                        <input id="product-name" type="text" placeholder="Fresh Banana" required>
+                    </label>
+
+                    <label>
+                        Price
+                        <input id="product-price" type="text" placeholder="RM 6.20 / kg" required>
+                    </label>
+
+                    <label>
+                        Category
+                        <select id="product-category" required>
+                            <option value="Vegetables">Vegetables</option>
+                            <option value="Fruits">Fruits</option>
+                            <option value="Seafood">Seafood</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Product Image URL
+                        <input id="product-image-url" type="url" placeholder="https://example.com/image.jpg">
+                    </label>
+
+                    <label>
+                        Upload Image
+                        <input id="product-image-file" type="file" accept="image/*">
+                    </label>
+
+                    <input id="product-edit-index" type="hidden" value="">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="cancel-product-form" class="ghost-btn">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="order-modal" class="product-modal hidden" aria-hidden="true">
+        <div class="product-modal-content">
+            <div class="modal-header">
+                <h2>Create New Order</h2>
+                <button type="button" id="close-order-modal" class="close-modal" aria-label="Close order form">×</button>
+            </div>
+
+            <form id="order-form">
+                <div class="product-form-grid">
+                    <label>
+                        Customer Name
+                        <input id="order-customer" type="text" placeholder="Rahim" required>
+                    </label>
+
+                    <label>
+                        Order Items
+                        <input id="order-items" type="text" placeholder="2 x Mango, 1 x Apple" required>
+                    </label>
+
+                    <label>
+                        Order Date
+                        <input id="order-date" type="date" required>
+                    </label>
+
+                    <label>
+                        Status
+                        <select id="order-status" required>
+                            <option value="Pending">Pending</option>
+                            <option value="Paid">Paid</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Total Amount
+                        <input id="order-total" type="text" placeholder="RM 72.00" required>
+                    </label>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="cancel-order-form" class="ghost-btn">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/script.js"></script>
 </body>
 </html>

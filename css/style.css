@@ -124,6 +124,132 @@ button:hover{
 
 }
 
+.customer-order-cta {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: linear-gradient(135deg, #effae4, #f6f8f2);
+    border: 1px solid #dfead8;
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin: 30px auto 10px;
+    max-width: 1100px;
+    text-align: left;
+}
+
+.customer-order-cta h2 {
+    margin: 0 0 8px;
+    color: #1d2c24;
+}
+
+.customer-order-cta p {
+    margin: 0;
+    color: #4d5d57;
+}
+
+.customer-order-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(12, 19, 16, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 2000;
+}
+
+.customer-order-modal.hidden {
+    display: none;
+}
+
+.customer-order-form-panel {
+    width: min(700px, 100%);
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    padding: 24px;
+}
+
+.customer-order-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.customer-order-header h2 {
+    margin: 0;
+    color: #1d2c24;
+}
+
+.close-order-modal {
+    background: #ebf1eb;
+    color: #1d2c24;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    padding: 0;
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.customer-order-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.customer-order-grid label {
+    display: grid;
+    gap: 8px;
+    font-weight: 700;
+    color: #1d2c24;
+}
+
+.customer-order-grid .full-width {
+    grid-column: 1 / -1;
+}
+
+.customer-order-grid input,
+.customer-order-grid textarea {
+    width: 100%;
+    border: 1px solid #dfe6df;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font: inherit;
+    color: #1d2c24;
+    resize: vertical;
+}
+
+.customer-order-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.secondary-order-button,
+.primary-order-button {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.secondary-order-button {
+    background: #f0f3ef;
+    color: #173c2c;
+}
+
+.primary-order-button {
+    background: #2e7d32;
+    color: white;
+}
+
 /* =====================
    FOOTER
 ===================== */
