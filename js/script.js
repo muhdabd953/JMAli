@@ -32,6 +32,8 @@ const PRODUCT_STORAGE_KEY = "jmAliCustomProducts";
 const ORDER_STORAGE_KEY = "jmAliOrders";
 const STAFF_NOTIFICATION_STORAGE_KEY = "jmAliStaffNotifications";
 const PRODUCT_CATEGORIES = ["Vegetables", "Fruits", "Seafood"];
+const cartItems = [];
+let pendingOrder;
 
 const defaultOrders = [
     { id: "#1048", customer: "Rahim", items: "2 x Mango, 1 x Apple", date: "2026-08-16", status: "Paid", total: "RM 94.00" },
@@ -101,9 +103,12 @@ function createProductCard(product, isAdmin = false) {
     card.className = "card";
     card.innerHTML = `
         <img src="${product.image}" alt="${product.name}">
-        <h3>${product.name}</h3>
-        <p>${product.price}</p>
-        ${isAdmin ? "" : '<button type="button">Add to Cart</button>'}
+        <div class="card-body">
+            <h3>${product.name}</h3>
+            <p>${product.price}</p>
+            <input class="product-quantity" type="number" min="1" value="1" aria-label="Quantity for ${product.name}">
+            ${isAdmin ? "" : '<button type="button">Add to Cart</button>'}
+        </div>
     `;
     return card;
 }
@@ -446,6 +451,102 @@ function readFileAsDataUrl(file) {
     });
 }
 
+function parseProductPrice(price) {
+    const match = String(price || "").match(/RM\s*([\d,.]+)/i);
+    return match ? Number(match[1].replace(/,/g, "")) : 0;
+}
+
+function formatCartItems() {
+    return cartItems.map((item) => `${item.quantity} x ${item.name}`).join(", ");
+}
+
+function getCartTotal() {
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+}
+
+function renderCartSummary() {
+    const summary = document.getElementById("cart-summary");
+    const itemsInput = document.getElementById("customer-order-items");
+
+    if (!summary) {
+        return;
+    }
+
+    if (!cartItems.length) {
+        summary.innerHTML = "<p>Your cart is empty. Add products or enter items manually.</p>";
+        return;
+    }
+
+    summary.innerHTML = cartItems.map((item) => `
+        <div class="cart-item">
+            <span>${item.quantity} x ${item.name}</span>
+            <strong>RM ${(item.price * item.quantity).toFixed(2)}</strong>
+        </div>
+    `).join("") + `
+        <div class="cart-total"><span>Total</span><strong>RM ${getCartTotal().toFixed(2)}</strong></div>
+    `;
+
+    if (itemsInput) {
+        itemsInput.value = formatCartItems();
+    }
+}
+
+function updateCartDisplay() {
+    const count = document.getElementById("cart-count");
+    const modalItems = document.getElementById("cart-modal-items");
+    const modalTotal = document.getElementById("cart-modal-total");
+
+    if (count) {
+        count.textContent = String(cartItems.reduce((total, item) => total + item.quantity, 0));
+    }
+
+    if (modalItems) {
+        modalItems.innerHTML = cartItems.length ? cartItems.map((item, index) => `
+            <div class="cart-modal-item">
+                <div class="cart-item-name">
+                    <p>${item.name}</p>
+                    <button class="remove-cart-item" type="button" data-cart-index="${index}">Remove</button>
+                </div>
+                <input class="cart-quantity" type="number" min="1" value="${item.quantity}" data-cart-index="${index}" aria-label="Quantity for ${item.name}">
+                <strong>RM ${(item.price * item.quantity).toFixed(2)}</strong>
+            </div>
+        `).join("") : "<p>Your cart is empty. Add products to begin your order.</p>";
+    }
+
+    if (modalTotal) {
+        modalTotal.textContent = `RM ${getCartTotal().toFixed(2)}`;
+    }
+
+    renderCartSummary();
+}
+
+function addToCart(name, price, quantity) {
+    const existingItem = cartItems.find((item) => item.name === name);
+    if (existingItem) {
+        existingItem.quantity += quantity;
+    } else {
+        cartItems.push({ name, price, quantity });
+    }
+    updateCartDisplay();
+    showCartToast();
+}
+
+let cartToastTimer;
+
+function showCartToast() {
+    const toast = document.getElementById("cart-toast");
+    if (!toast) {
+        return;
+    }
+
+    clearTimeout(cartToastTimer);
+    toast.classList.remove("show");
+    void toast.offsetWidth;
+    toast.classList.add("show");
+    toast.setAttribute("aria-hidden", "false");
+    cartToastTimer = setTimeout(() => toast.setAttribute("aria-hidden", "true"), 2400);
+}
+
 function bindProductQuickOrderButtons() {
     const orderButtons = document.querySelectorAll(".card button");
     if (!orderButtons.length) {
@@ -453,16 +554,28 @@ function bindProductQuickOrderButtons() {
     }
 
     orderButtons.forEach((button) => {
+        if (button.dataset.bound === "true") {
+            return;
+        }
         button.dataset.bound = "true";
+        const card = button.closest(".card");
+        if (card && !card.querySelector(".product-quantity")) {
+            const quantityInput = document.createElement("input");
+            quantityInput.className = "product-quantity";
+            quantityInput.type = "number";
+            quantityInput.min = "1";
+            quantityInput.value = "1";
+            quantityInput.setAttribute("aria-label", "Product quantity");
+            button.parentElement.insertBefore(quantityInput, button);
+        }
         button.addEventListener("click", () => {
-            const card = button.closest(".card");
             const title = card?.querySelector("h3")?.textContent?.trim();
-            const modal = document.getElementById("customer-order-modal");
-            const itemsInput = document.getElementById("customer-order-items");
-
-            if (modal && itemsInput) {
-                itemsInput.value = title || "Fresh groceries";
-                modal.classList.remove("hidden");
+            const priceText = card?.querySelector("p")?.textContent?.trim();
+            const quantityInput = card?.querySelector(".product-quantity");
+            const quantity = Math.max(1, Number(quantityInput?.value) || 1);
+            addToCart(title || "Fresh groceries", parseProductPrice(priceText), quantity);
+            if (quantityInput) {
+                quantityInput.value = "1";
             }
         });
     });
@@ -480,22 +593,28 @@ function initCustomerOrderForm() {
     const closeButton = document.getElementById("close-customer-order");
     const cancelButton = document.getElementById("cancel-customer-order");
 
-    if (!triggerButton || !modal || !form) {
+    if (!modal || !form) {
         return;
     }
 
-    const closeModal = () => {
+    const closeModal = (resetForm = true) => {
         modal.classList.add("hidden");
-        form.reset();
+        if (resetForm) {
+            form.reset();
+            updateCartDisplay();
+        }
     };
 
-    triggerButton.addEventListener("click", () => {
-        form.reset();
+    triggerButton?.addEventListener("click", () => {
+        updateCartDisplay();
         modal.classList.remove("hidden");
     });
 
     closeButton?.addEventListener("click", closeModal);
     cancelButton?.addEventListener("click", closeModal);
+    document.getElementById("customer-phone")?.addEventListener("input", (event) => {
+        event.currentTarget.setCustomValidity("");
+    });
 
     modal.addEventListener("click", (event) => {
         if (event.target === modal) {
@@ -511,6 +630,8 @@ function initCustomerOrderForm() {
         const address = document.getElementById("customer-address").value.trim();
         const items = document.getElementById("customer-order-items").value.trim();
         const notes = document.getElementById("customer-order-notes").value.trim();
+        const cartDescription = formatCartItems();
+        const orderTotal = getCartTotal();
 
         if (!customerName || !phone || !address || !items) {
             alert("Please enter your name, phone, address, and order items.");
@@ -528,31 +649,196 @@ function initCustomerOrderForm() {
             customer: customerName,
             phone,
             address,
-            items,
+            items: cartDescription || items,
+            lineItems: cartItems.map((item) => ({ ...item })),
             note: notes,
             date: new Date().toISOString().slice(0, 10),
             status: "Pending",
-            total: "Awaiting confirmation"
+            total: orderTotal ? `RM ${orderTotal.toFixed(2)}` : "Awaiting confirmation"
         };
 
-        orders.unshift(newOrder);
+        if (!isValidPhoneNumber(phone)) {
+            document.getElementById("customer-phone").setCustomValidity("Enter a valid Malaysian mobile number, for example 012-3456789.");
+            document.getElementById("customer-phone").reportValidity();
+            return;
+        }
+
+        document.getElementById("customer-phone").setCustomValidity("");
+        pendingOrder = newOrder;
+        closeModal(false);
+        showOrderReview(newOrder);
+    });
+}
+
+function isValidPhoneNumber(phone) {
+    return /^(?:\+?60|0)1\d[\s-]?\d{3,4}[\s-]?\d{4}$/.test(phone);
+}
+
+function renderOrderLineItems(order) {
+    if (!order.lineItems?.length) {
+        return `<li><span>${order.items}</span></li>`;
+    }
+
+    return order.lineItems.map((item) => `
+        <li>
+            <span>${item.quantity} x ${item.name}</span>
+            <strong>RM ${(item.price * item.quantity).toFixed(2)}</strong>
+        </li>
+    `).join("");
+}
+
+function showOrderReview(order) {
+    const modal = document.getElementById("order-review");
+    const details = document.getElementById("order-review-details");
+
+    if (!modal || !details) {
+        return;
+    }
+
+    details.innerHTML = `
+        <div class="receipt-status"><span>?</span><p>Please check your details before sending</p></div>
+        <div class="receipt-section"><p class="receipt-label">Customer</p><p><strong>${order.customer}</strong></p><p>${order.phone}</p><p>${order.address}</p></div>
+        <div class="receipt-section"><p class="receipt-label">Order</p><ul class="receipt-items">${renderOrderLineItems(order)}</ul><div class="receipt-line receipt-subtotal"><span>Total</span><strong>${order.total}</strong></div></div>
+        ${order.note ? `<div class="receipt-section"><p class="receipt-label">Notes</p><p>${order.note}</p></div>` : ""}
+    `;
+    modal.classList.remove("hidden");
+}
+
+function showOrderConfirmation(order) {
+    const modal = document.getElementById("order-confirmation");
+    const details = document.getElementById("confirmation-details");
+
+    if (!modal || !details) {
+        return;
+    }
+
+    details.innerHTML = `
+        <div class="receipt-status"><span>✓</span><p>Order sent successfully</p></div>
+        <div class="receipt-meta"><span>Order number</span><strong>${order.id}</strong><span>Date</span><strong>${order.date}</strong></div>
+        <div class="receipt-section">
+            <p class="receipt-label">Items</p>
+            <ul class="receipt-items">${renderOrderLineItems(order)}</ul>
+        </div>
+        <div class="receipt-section">
+            <p class="receipt-label">Delivery details</p>
+            <p><strong>${order.customer}</strong></p>
+            <p>${order.phone}</p>
+            <p>${order.address}</p>
+        </div>
+        <div class="receipt-total"><span>Total</span><strong>${order.total}</strong></div>
+        <p class="receipt-note">Our team will contact you to confirm delivery.</p>
+    `;
+    modal.classList.remove("hidden");
+}
+
+function initCart() {
+    const cartButton = document.getElementById("open-cart");
+    const cartModal = document.getElementById("cart-modal");
+    const closeButton = document.getElementById("close-cart");
+    const continueButton = document.getElementById("continue-shopping");
+    const sendButton = document.getElementById("send-cart-order");
+    const modalItems = document.getElementById("cart-modal-items");
+
+    if (!cartButton || !cartModal) {
+        return;
+    }
+
+    const closeCart = () => cartModal.classList.add("hidden");
+    const openDetails = () => {
+        if (!cartItems.length) {
+            alert("Your cart is empty. Add a product before sending an order.");
+            return;
+        }
+        closeCart();
+        updateCartDisplay();
+        document.getElementById("customer-order-modal")?.classList.remove("hidden");
+        document.getElementById("customer-name")?.focus();
+    };
+
+    cartButton.addEventListener("click", () => {
+        updateCartDisplay();
+        cartModal.classList.remove("hidden");
+    });
+    closeButton?.addEventListener("click", closeCart);
+    continueButton?.addEventListener("click", closeCart);
+    sendButton?.addEventListener("click", openDetails);
+    cartModal.addEventListener("click", (event) => {
+        if (event.target === cartModal) {
+            closeCart();
+        }
+    });
+    modalItems?.addEventListener("input", (event) => {
+        if (!event.target.classList.contains("cart-quantity")) {
+            return;
+        }
+        const index = Number(event.target.dataset.cartIndex);
+        cartItems[index].quantity = Math.max(1, Number(event.target.value) || 1);
+        updateCartDisplay();
+    });
+    modalItems?.addEventListener("click", (event) => {
+        if (!event.target.classList.contains("remove-cart-item")) {
+            return;
+        }
+        cartItems.splice(Number(event.target.dataset.cartIndex), 1);
+        updateCartDisplay();
+    });
+}
+
+function initOrderConfirmation() {
+    const reviewModal = document.getElementById("order-review");
+    const reviewCloseButton = document.getElementById("close-order-review");
+    const editButton = document.getElementById("edit-order-details");
+    const confirmButton = document.getElementById("confirm-order");
+    const modal = document.getElementById("order-confirmation");
+    const closeButton = document.getElementById("close-confirmation");
+    const closeConfirmation = () => modal?.classList.add("hidden");
+    const closeReview = () => reviewModal?.classList.add("hidden");
+
+    reviewCloseButton?.addEventListener("click", closeReview);
+    editButton?.addEventListener("click", () => {
+        closeReview();
+        document.getElementById("customer-order-modal")?.classList.remove("hidden");
+        document.getElementById("customer-name")?.focus();
+    });
+    confirmButton?.addEventListener("click", () => {
+        if (!pendingOrder) {
+            return;
+        }
+
+        const orders = getSavedOrders();
+        orders.unshift(pendingOrder);
         saveOrders(orders);
-        notifyStaff(`${customerName} ordered: ${items}. Phone: ${phone}. Address: ${address}.`);
+        cartItems.length = 0;
+        updateCartDisplay();
+        notifyStaff(`${pendingOrder.customer} ordered: ${pendingOrder.items}. Total: ${pendingOrder.total}. Phone: ${pendingOrder.phone}. Address: ${pendingOrder.address}.`);
         renderOrders();
         renderStaffNotifications();
-        closeModal();
-        alert("Thank you! Your order has been sent to JM Ali and our staff have been notified.");
+        closeReview();
+        showOrderConfirmation(pendingOrder);
+        pendingOrder = undefined;
+    });
+    reviewModal?.addEventListener("click", (event) => {
+        if (event.target === reviewModal) {
+            closeReview();
+        }
+    });
+
+    closeButton?.addEventListener("click", closeConfirmation);
+    modal?.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            closeConfirmation();
+        }
     });
 }
 
 function initAdminProductForm() {
-    const triggerButton = document.getElementById("open-product-form");
+    const triggerButtons = document.querySelectorAll(".open-product-form");
     const modal = document.getElementById("product-modal");
     const form = document.getElementById("product-form");
     const closeButton = document.getElementById("close-product-modal");
     const cancelButton = document.getElementById("cancel-product-form");
 
-    if (!triggerButton || !modal || !form) {
+    if (!triggerButtons.length || !modal || !form) {
         return;
     }
 
@@ -562,12 +848,12 @@ function initAdminProductForm() {
         document.getElementById("product-edit-index").value = "";
     };
 
-    triggerButton.addEventListener("click", () => {
+    triggerButtons.forEach((triggerButton) => triggerButton.addEventListener("click", () => {
         form.reset();
         document.getElementById("product-edit-index").value = "";
         document.getElementById("product-category").value = "Vegetables";
         modal.classList.remove("hidden");
-    });
+    }));
 
     closeButton?.addEventListener("click", closeModal);
     cancelButton?.addEventListener("click", closeModal);
@@ -721,7 +1007,7 @@ if (orderStatusFilter) {
 
 console.log("Welcome to JM Farm!");
 
-if (document.getElementById("open-product-form")) {
+if (document.querySelector(".open-product-form")) {
     initAdminProductForm();
 }
 
@@ -731,6 +1017,12 @@ if (document.getElementById("open-order-form")) {
 
 if (document.getElementById("customer-order-form")) {
     initCustomerOrderForm();
+}
+
+if (document.getElementById("open-cart")) {
+    initCart();
+    initOrderConfirmation();
+    updateCartDisplay();
 }
 
 bindProductQuickOrderButtons();

@@ -24,7 +24,7 @@
                 <a href="#contact">Contact</a>
             </nav>
 
-            <button id="open-customer-order" class="primary-btn header-btn" type="button">Place Order</button>
+            <button id="open-cart" class="cart-button" type="button" aria-label="Open shopping cart" title="Open shopping cart">🛒 <span id="cart-count">0</span></button>
         </div>
     </header>
 
@@ -312,7 +312,18 @@
         </section>
     </main>
 
-    <footer class="site-footer" id="contact">
+    <section class="contact-section container" id="contact">
+        <div class="section-heading">
+            <span class="eyebrow">Get in touch</span>
+            <h2>Contact JM Ali</h2>
+        </div>
+        <div class="contact-details">
+            <p>Have a question or need help with an order? Call us directly.</p>
+            <a class="contact-phone" href="tel:+60102596876">+60 10-259 6876</a>
+        </div>
+    </section>
+
+    <footer class="site-footer">
         <div class="container footer-inner">
             <div>
                 <h3>JM Ali</h3>
@@ -327,8 +338,23 @@
         </div>
     </footer>
 
+    <div id="cart-modal" class="customer-order-modal hidden" aria-hidden="true">
+        <div class="customer-order-form-panel cart-panel">
+            <div class="customer-order-header">
+                <h2>Your Cart</h2>
+                <button type="button" id="close-cart" class="close-order-modal" aria-label="Close cart">×</button>
+            </div>
+            <div id="cart-modal-items" class="cart-modal-items" aria-live="polite"></div>
+            <div class="cart-total cart-modal-total"><span>Total</span><strong id="cart-modal-total">RM 0.00</strong></div>
+            <div class="customer-order-actions">
+                <button type="button" id="continue-shopping" class="secondary-order-button">Continue Shopping</button>
+                <button type="button" id="send-cart-order" class="primary-order-button">Send Order</button>
+            </div>
+        </div>
+    </div>
+
     <div id="customer-order-modal" class="customer-order-modal hidden" aria-hidden="true">
-        <div class="customer-order-form-panel">
+        <div class="customer-order-form-panel checkout-panel">
             <div class="customer-order-header">
                 <h2>Place Your Order</h2>
                 <button type="button" id="close-customer-order" class="close-order-modal" aria-label="Close order form">×</button>
@@ -343,7 +369,7 @@
 
                     <label>
                         Phone Number
-                        <input id="customer-phone" type="tel" placeholder="012-3456789" required />
+                        <input id="customer-phone" type="tel" placeholder="012-3456789" pattern="(?:\+?60|0)1[0-9][\s-]?[0-9]{3,4}[\s-]?[0-9]{4}" title="Enter a valid Malaysian mobile number, for example 012-3456789" required />
                     </label>
 
                     <label class="full-width">
@@ -355,6 +381,8 @@
                         Order Items
                         <textarea id="customer-order-items" rows="3" placeholder="Example: 2 kg tomatoes, 1 kg carrots" required></textarea>
                     </label>
+
+                    <div id="cart-summary" class="cart-summary full-width" aria-live="polite"></div>
 
                     <label class="full-width">
                         Notes / Delivery Instructions
@@ -370,209 +398,35 @@
         </div>
     </div>
 
-    <script src="./js/script.js"></script>
-</body>
-</html>
-
-            <p>RM 5.60 / kg</p>
-
-            <button>Add to Cart</button>
-
-        </div>
-
-        <div class="card">
-
-            <img src="images/products/vegetable/onion.jpg" alt="Fresh Onion">
-
-            <h3>Fresh Onion</h3>
-
-            <p>RM 5.60 / kg</p>
-
-            <button>Add to Cart</button>
-
-        </div>
-
-        <div class="card">
-
-            <img src="images/products/fruit/pineapple.webp" alt="Fresh Pineapple">
-
-            <h3>Fresh Pineapple</h3>
-
-            <p>RM 5.60 / kg</p>
-
-            <button>Add to Cart</button>
-
-        </div>
-
-        <div class="card">
-
-            <img src="images/products//vegetable/potato.webp" alt="Fresh Potato">
-
-            <h3>Fresh Potato</h3>
-
-            <p>RM 5.60 / kg</p>
-
-            <button>Add to Cart</button>
-
-        </div>
-
-        <div class="card">
-
-            <img src="images/products/fruit/red_apple.avif" alt="Fresh Apple">
-
-            <h3>Fresh Apple</h3>
-
-            <p>RM 5.60 / kg</p>
-
-            <button>Add to Cart</button>
-
-        </div>
-
-        </div>
-
-    </section>
-
-    <!-- ======================================
-     VEGETABLES
-    ====================================== -->
-
-    <section id="vegetables" class="product-section">
-
-        <h2>🥬 Vegetables</h2>
-
-        <div class="product-grid">
-
-            <!-- Vegetable cards go here -->
-
-        <div class="card">
-
-            <img src="images/products/vegetable/sweet_potato.jpg" alt="Fresh Sweet Potato">
-
-            <h3>Fresh Sweet Potato</h3>
-
-            <p>RM 5.60 / kg</p>
-
-            <button>Add to Cart</button>
-
-        </div>
-
-        </div>
-
-    </section>
-
-        <section id="fruits" class="product-section">
-
-        <h2>🍎 Fruits</h2>
-
-        <div class="product-grid">
-
-            <!-- Fruits cards go here -->
-
-        <div class="card">
-
-            <img src="images/products/fruit/watermelon.jpg" alt="Fresh Watermelon">
-
-            <h3>Fresh Watermelon</h3>
-
-            <p>RM 5.60 / kg</p>
-
-            <button>Add to Cart</button>
-
-        </div>
-
-        </div>
-
-        </section>
-
-        <section id="seafood" class="product-section">
-
-        <h2>🐟 Seafood</h2>
-
-        <div class="product-grid">
-
-            <!-- Seafood cards go here -->
-
-            <div class="card">
-
-             <img src="images/products/seafood/bluefin_tuna.jpg" alt="Fresh Tuna">
-
-            <h3>Fresh Tuna</h3>
-
-            <p>RM 5.60 / kg</p>
-
-            <button>Add to Cart</button>
-
-        </div>
-
-        </div>
-
-         </section>
-
-    </main>
-
-    <!-- ======================================
-         FOOTER
-         This is the bottom section of the website.
-    ======================================= -->
-
-    <footer>
-
-        <p>
-
-            © 2026 JM Ali.
-            All Rights Reserved.
-
-        </p>
-
-    </footer>
-
-    <div id="customer-order-modal" class="customer-order-modal hidden" aria-hidden="true">
-        <div class="customer-order-form-panel">
+    <div id="order-review" class="customer-order-modal hidden" aria-hidden="true">
+        <div class="customer-order-form-panel confirmation-panel">
             <div class="customer-order-header">
-                <h2>Place Your Order</h2>
-                <button type="button" id="close-customer-order" class="close-order-modal" aria-label="Close order form">×</button>
+                <h2>Confirm Your Details</h2>
+                <button type="button" id="close-order-review" class="close-order-modal" aria-label="Close order review">×</button>
             </div>
-
-            <form id="customer-order-form">
-                <div class="customer-order-grid">
-                    <label>
-                        Full Name
-                        <input id="customer-name" type="text" placeholder="Your name" required>
-                    </label>
-
-                    <label>
-                        Phone Number
-                        <input id="customer-phone" type="tel" placeholder="012-3456789" required>
-                    </label>
-
-                    <label class="full-width">
-                        Delivery Address
-                        <textarea id="customer-address" rows="3" placeholder="Your address" required></textarea>
-                    </label>
-
-                    <label class="full-width">
-                        Order Items
-                        <textarea id="customer-order-items" rows="3" placeholder="Example: 2 kg tomatoes, 1 kg carrots" required></textarea>
-                    </label>
-
-                    <label class="full-width">
-                        Notes / Delivery Instructions
-                        <textarea id="customer-order-notes" rows="2" placeholder="Optional"></textarea>
-                    </label>
-                </div>
-
-                <div class="customer-order-actions">
-                    <button type="button" id="cancel-customer-order" class="secondary-order-button">Cancel</button>
-                    <button type="submit" class="primary-order-button">Send Order</button>
-                </div>
-            </form>
+            <div id="order-review-details"></div>
+            <div class="customer-order-actions review-actions">
+                <button type="button" id="edit-order-details" class="secondary-order-button">Edit Details</button>
+                <button type="button" id="confirm-order" class="primary-order-button">Confirm &amp; Send</button>
+            </div>
         </div>
     </div>
 
-    <!-- Link JavaScript -->
+    <div id="order-confirmation" class="customer-order-modal hidden" aria-hidden="true">
+        <div class="customer-order-form-panel confirmation-panel">
+            <div class="customer-order-header">
+                <h2>Order Confirmed</h2>
+                <button type="button" id="close-confirmation" class="close-order-modal" aria-label="Close confirmation">×</button>
+            </div>
+            <div id="confirmation-details"></div>
+        </div>
+    </div>
+
+    <div id="cart-toast" class="cart-toast" role="status" aria-live="polite" aria-hidden="true">
+        <span class="cart-toast-check" aria-hidden="true">✓</span>
+        <span>Added to Cart</span>
+    </div>
 
     <script src="./js/script.js"></script>
-
 </body>
-
 </html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | JM Ali Admin</title>
+    <link rel="stylesheet" href="./css/admin.css">
+</head>
+<body>
+    <div class="admin-shell">
+        <aside class="sidebar">
+            <div class="brand"><div class="brand-mark">JM</div><div class="brand-text"><strong>JM Ali</strong><span>Admin Panel</span></div></div>
+            <nav class="nav-menu" aria-label="Sidebar navigation">
+                <a class="nav-item" href="./index.html">Overview</a>
+                <a class="nav-item active" href="./products.html">Products</a>
+                <a class="nav-item" href="./orders.html">Orders</a>
+                <a class="nav-item" href="./customers.html">Customers</a>
+                <a class="nav-item" href="./inventory.html">Inventory</a>
+                <a class="nav-item" href="./reports.html">Reports</a>
+                <a class="nav-item" href="./settings.html">Settings</a>
+            </nav>
+            <div class="sidebar-card"><p>Today</p><strong>18</strong><span>Orders processed</span></div>
+        </aside>
+        <main class="main-panel">
+            <header class="topbar"><div><p class="eyebrow">Catalog</p><h1>Products</h1></div><button class="open-product-form primary-btn" type="button">+ New Product</button></header>
+            <section class="panel product-management-panel">
+                <div class="panel-header"><h2>All Products</h2><span>Catalog details and actions</span></div>
+                <div class="toolbar-row"><input id="product-search" type="search" placeholder="Search products..." aria-label="Search products"><select id="product-category-filter" aria-label="Filter products by category"><option value="All">All categories</option><option value="Vegetables">Vegetables</option><option value="Fruits">Fruits</option><option value="Seafood">Seafood</option></select></div>
+                <div class="product-list-wrapper"><table class="product-table"><thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Actions</th></tr></thead><tbody id="admin-product-list"></tbody></table></div>
+            </section>
+        </main>
+    </div>
+    <div id="product-modal" class="product-modal hidden" aria-hidden="true"><div class="product-modal-content"><div class="modal-header"><h2>Add New Product</h2><button type="button" id="close-product-modal" class="close-modal" aria-label="Close product form">×</button></div><form id="product-form"><div class="product-form-grid"><label>Product Name<input id="product-name" type="text" placeholder="Fresh Banana" required></label><label>Price<input id="product-price" type="text" placeholder="RM 6.20 / kg" required></label><label>Category<select id="product-category" required><option value="Vegetables">Vegetables</option><option value="Fruits">Fruits</option><option value="Seafood">Seafood</option></select></label><label>Product Image URL<input id="product-image-url" type="url" placeholder="https://example.com/image.jpg"></label><label>Upload Image<input id="product-image-file" type="file" accept="image/*"></label><input id="product-edit-index" type="hidden" value=""></div><div class="modal-actions"><button type="button" id="cancel-product-form" class="ghost-btn">Cancel</button><button type="submit" class="primary-btn">Save Product</button></div></form></div></div>
+    <script src="../js/script.js"></script>
+</body>
+</html>
