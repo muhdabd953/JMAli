@@ -192,7 +192,7 @@ a {
 .hero {
     background:
         linear-gradient(120deg, rgba(12, 40, 28, 0.8), rgba(14, 42, 30, 0.68)),
-        url("../images/hero/hero_banner.webp") center/cover no-repeat;
+        url("../Images/hero/hero_banner.webp") center/cover no-repeat;
     color: var(--white);
     padding: 72px 0 50px;
 }
