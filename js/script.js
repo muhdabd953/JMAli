@@ -28,10 +28,11 @@ into a real database-backed ecommerce system.
 // These names are used to save data in the browser.
 // Later, these will be replaced by real database tables.
 // ================================
-const PRODUCT_STORAGE_KEY = "jmAliCustomProducts";
 const ORDER_STORAGE_KEY = "jmAliOrders";
 const STAFF_NOTIFICATION_STORAGE_KEY = "jmAliStaffNotifications";
 const PRODUCT_CATEGORIES = ["Vegetables", "Fruits", "Seafood"];
+const PRODUCTS_API_URL = "./api/products.php";
+const DEFAULT_PRODUCT_IMAGE = "./Images/products/fruit/red_apple.avif";
 const cartItems = [];
 let pendingOrder;
 
@@ -43,45 +44,29 @@ const defaultOrders = [
     { id: "#1052", customer: "Afiq", items: "2 x Watermelon, 1 x Pineapple", date: "2026-08-14", status: "Paid", total: "RM 86.00" }
 ];
 
-const defaultProducts = [
-    { name: "Fresh Tomatoes", price: "RM 4.90 / kg", image: "./Images/products/fruit/tomato.jpg", category: "Fruits" },
-    { name: "Fresh Carrots", price: "RM 3.20 / kg", image: "./Images/products/vegetable/carrot.webp", category: "Vegetables" },
-    { name: "Fresh Broccoli", price: "RM 5.60 / kg", image: "./Images/products/vegetable/broccoli.jpg", category: "Vegetables" },
-    { name: "Fresh Cabbage", price: "RM 5.60 / kg", image: "./Images/products/vegetable/cabbage.jpg", category: "Vegetables" },
-    { name: "Fresh Cucumber", price: "RM 5.60 / kg", image: "./Images/products/fruit/cucumber.jpg", category: "Fruits" },
-    { name: "Fresh Garlic", price: "RM 5.60 / kg", image: "./Images/products/vegetable/garlic.jpg", category: "Vegetables" },
-    { name: "Fresh Mango", price: "RM 5.60 / kg", image: "./Images/products/fruit/mango.jpg", category: "Fruits" },
-    { name: "Fresh Onion", price: "RM 5.60 / kg", image: "./Images/products/vegetable/onion.jpg", category: "Vegetables" },
-    { name: "Fresh Pineapple", price: "RM 5.60 / kg", image: "./Images/products/fruit/pineapple.webp", category: "Fruits" },
-    { name: "Fresh Potato", price: "RM 5.60 / kg", image: "./Images/products/vegetable/potato.webp", category: "Vegetables" },
-    { name: "Fresh Apple", price: "RM 5.60 / kg", image: "./Images/products/fruit/red_apple.avif", category: "Fruits" },
-    { name: "Fresh Sweet Potato", price: "RM 5.60 / kg", image: "./Images/products/vegetable/sweet_potato.jpg", category: "Vegetables" },
-    { name: "Fresh Watermelon", price: "RM 5.60 / kg", image: "./Images/products/fruit/watermelon.jpg", category: "Fruits" },
-    { name: "Fresh Tuna", price: "RM 5.60 / kg", image: "./Images/products/seafood/bluefin_tuna.jpg", category: "Seafood" }
-];
-
 // ================================
 // PRODUCT STORAGE
 // These functions save and read product data.
 // In the future, this will connect to a backend API.
 // ================================
-function getSavedProducts() {
-    try {
-        const savedProducts = localStorage.getItem(PRODUCT_STORAGE_KEY);
-        if (!savedProducts) {
-            return [];
-        }
+async function getProductsFromDatabase() {
+    const response = await fetch(PRODUCTS_API_URL);
 
-        const parsedProducts = JSON.parse(savedProducts);
-        return Array.isArray(parsedProducts) ? parsedProducts : [];
-    } catch (error) {
-        console.error("Could not read saved products:", error);
-        return [];
+    if (!response.ok) {
+        throw new Error(`Products request failed with status ${response.status}.`);
     }
+
+    return response.json();
 }
 
-function saveProducts(products) {
-    localStorage.setItem(PRODUCT_STORAGE_KEY, JSON.stringify(products));
+function mapDatabaseProduct(product) {
+    return {
+        id: product.id,
+        name: product.name,
+        price: `RM ${Number(product.current_price).toFixed(2)} / ${product.unit}`,
+        image: product.image_url,
+        category: normalizeCategory(product.category)
+    };
 }
 
 function normalizeCategory(category) {
@@ -113,57 +98,97 @@ function createProductCard(product, isAdmin = false) {
     return card;
 }
 
-function renderFeaturedProducts() {
-    const featuredSection = document.querySelector("section.featured");
-    if (!featuredSection) {
-        return;
-    }
-
-    const customProductsContainer = document.getElementById("custom-products");
-    if (customProductsContainer) {
-        customProductsContainer.remove();
-    }
-
-    const products = getSavedProducts();
-    if (!products.length) {
-        return;
-    }
-
-    const container = document.createElement("div");
-    container.id = "custom-products";
-    container.className = "category-container";
-    container.setAttribute("aria-live", "polite");
-
-    products.forEach((product) => {
-        container.appendChild(createProductCard(product));
-    });
-
-    featuredSection.appendChild(container);
+function createHeroProductCard(product, isMuted = false) {
+    const card = document.createElement("div");
+    card.className = `hero-product-card${isMuted ? " muted" : ""}`;
+    card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}">
+        <div>
+            <h3>${product.name}</h3>
+            <p>${product.price}</p>
+        </div>
+    `;
+    return card;
 }
 
-function renderCategoryProducts() {
+function getSavedProducts() {
+    return [];
+}
+
+function saveProducts() {
+    // Product data is managed by the database API now.
+}
+
+function renderAdminProducts() {
+    const list = document.getElementById("admin-product-list");
+
+    if (list) {
+        list.innerHTML = '<tr><td colspan="5">No products have been added yet.</td></tr>';
+    }
+}
+
+function deleteProduct() {
+    // Product deletion will be handled by the database API.
+}
+
+function openProductModalForEdit() {
+    // Product editing will be handled by the database API.
+}
+
+async function renderStorefrontProducts() {
+    const featuredContainer = document.getElementById("featured-products");
+    const heroProducts = document.getElementById("hero-products");
     const categoryMapping = {
         vegetables: document.querySelector("#vegetables .product-grid"),
         fruits: document.querySelector("#fruits .product-grid"),
         seafood: document.querySelector("#seafood .product-grid")
     };
 
-    Object.entries(categoryMapping).forEach(([categoryKey, grid]) => {
-        if (!grid) {
-            return;
+    if (!featuredContainer) {
+        return;
+    }
+
+    try {
+        const products = (await getProductsFromDatabase()).map(mapDatabaseProduct);
+        if (heroProducts) {
+            heroProducts.innerHTML = "";
+            products.slice(0, 2).forEach((product, index) => {
+                heroProducts.appendChild(createHeroProductCard(product, index === 1));
+            });
+            if (!products.length) {
+                heroProducts.innerHTML = '<p class="hero-empty-products">No products available yet.</p>';
+            }
+        }
+        featuredContainer.innerHTML = "";
+
+        if (!products.length) {
+            featuredContainer.innerHTML = '<p class="empty-products">No products available yet. Please check back soon.</p>';
+        } else {
+            products.forEach((product) => featuredContainer.appendChild(createProductCard(product)));
         }
 
-        const existingDynamicProducts = grid.querySelectorAll(".dynamic-product");
-        existingDynamicProducts.forEach((item) => item.remove());
+        Object.entries(categoryMapping).forEach(([categoryKey, grid]) => {
+            if (!grid) {
+                return;
+            }
 
-        const products = getSavedProducts().filter((product) => normalizeCategory(product.category) === categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1));
+            const category = categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1);
+            const categoryProducts = products.filter((product) => product.category === category);
+            grid.innerHTML = categoryProducts.length
+                ? ""
+                : `<p class="empty-products">No ${categoryKey} available yet.</p>`;
 
-        products.forEach((product) => {
-            const card = createProductCard(product);
-            card.classList.add("dynamic-product");
-            grid.appendChild(card);
+            categoryProducts.forEach((product) => grid.appendChild(createProductCard(product)));
         });
-    });
+
+        bindProductQuickOrderButtons();
+    } catch (error) {
+        console.error("Could not load products from the database:", error);
+        if (heroProducts) {
+            heroProducts.innerHTML = '<p class="hero-empty-products">Products are temporarily unavailable.</p>';
+        }
+        featuredContainer.innerHTML = '<p class="empty-products">Products are temporarily unavailable.</p>';
+    }
 }
 
 // ================================
@@ -231,53 +256,16 @@ function renderAdminProducts() {
     });
 }
 
-function deleteProduct(index) {
-    const products = getSavedProducts();
-    const productToDelete = products[index];
-
-    if (!productToDelete) {
-        return;
-    }
-
-    const confirmDelete = window.confirm(`Delete ${productToDelete.name}?`);
-    if (!confirmDelete) {
-        return;
-    }
-
-    products.splice(index, 1);
-    saveProducts(products);
-    renderAdminProducts();
-    renderFeaturedProducts();
-    renderCategoryProducts();
+function deleteProduct() {
+    // Product deletion will be handled by the database API.
 }
 
-function openProductModalForEdit(index) {
-    const modal = document.getElementById("product-modal");
-    const form = document.getElementById("product-form");
-    const nameInput = document.getElementById("product-name");
-    const priceInput = document.getElementById("product-price");
-    const categoryInput = document.getElementById("product-category");
-    const imageUrlInput = document.getElementById("product-image-url");
-    const editIndexInput = document.getElementById("product-edit-index");
-    const product = getSavedProducts()[index];
-
-    if (!product || !modal || !form) {
-        return;
-    }
-
-    nameInput.value = product.name || "";
-    priceInput.value = product.price || "";
-    categoryInput.value = normalizeCategory(product.category);
-    imageUrlInput.value = product.image || "";
-    editIndexInput.value = String(index);
-
-    modal.classList.remove("hidden");
+function openProductModalForEdit() {
+    // Product editing will be handled by the database API.
 }
 
 // ================================
 // ORDER SYSTEM
-// This area handles all order records and staff actions.
-// The admin can update status such as paid, shipped, and cancelled.
 // ================================
 function getSavedOrders() {
     try {
@@ -896,7 +884,7 @@ function initAdminProductForm() {
             if (selectedFile) {
                 productData.image = await readFileAsDataUrl(selectedFile);
             } else if (!productData.image) {
-                productData.image = defaultProducts[0].image;
+                productData.image = DEFAULT_PRODUCT_IMAGE;
             }
 
             const products = getSavedProducts();
@@ -910,8 +898,7 @@ function initAdminProductForm() {
 
             saveProducts(products);
             renderAdminProducts();
-            renderFeaturedProducts();
-            renderCategoryProducts();
+            renderStorefrontProducts();
             closeModal();
             alert(editIndex !== "" ? "Product updated successfully." : "Product was added successfully.");
         } catch (error) {
@@ -1035,7 +1022,6 @@ window.addEventListener("storage", (event) => {
 
 renderOrders();
 renderAdminProducts();
-renderFeaturedProducts();
-renderCategoryProducts();
+renderStorefrontProducts();
 bindProductQuickOrderButtons();
 renderStaffNotifications();

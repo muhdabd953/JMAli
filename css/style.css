@@ -316,6 +316,11 @@ a {
     font-size: 0.95rem;
 }
 
+.hero-empty-products {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.78);
+}
+
 .trust-strip {
     padding: 28px 0 10px;
 }
@@ -407,6 +412,17 @@ a {
     display: flex;
     gap: 22px;
     flex-wrap: wrap;
+}
+
+.empty-products {
+    width: 100%;
+    margin: 0;
+    padding: 28px;
+    border: 1px dashed #b9cdbb;
+    border-radius: 16px;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.65);
+    text-align: center;
 }
 
 .featured .category-container {
