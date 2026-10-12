@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | JM Ali</title>
+    <link rel="stylesheet" href="./css/admin.css">
+</head>
+<body class="admin-login-page" data-page="login">
+    <main class="login-layout">
+        <a class="login-brand" href="../index.html" aria-label="JM Ali storefront">
+            <span class="brand-mark">JM</span>
+            <span><strong>JM Ali</strong><small>Farm fresh groceries</small></span>
+        </a>
+        <section class="login-panel" aria-labelledby="login-title">
+            <p class="eyebrow">Admin workspace</p>
+            <h1 id="login-title">Sign in</h1>
+            <p class="login-intro">Use your administrator account to manage the store.</p>
+            <form id="admin-login-form">
+                <label for="admin-email">Email address</label>
+                <input id="admin-email" name="email" type="email" autocomplete="username" required>
+                <label for="admin-password">Password</label>
+                <input id="admin-password" name="password" type="password" autocomplete="current-password" required>
+                <p id="admin-login-status" class="login-status" role="status" aria-live="polite"></p>
+                <button class="primary-btn" type="submit">Log in</button>
+            </form>
+            <a class="storefront-link" href="../index.html">Back to JM Ali</a>
+        </section>
+    </main>
+    <script src="./js/admin.js"></script>
+</body>
+</html>

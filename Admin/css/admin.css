@@ -1,3 +1,15 @@
+:root {
+    --green-900: #123d28;
+    --green-800: #1a4e35;
+    --green-700: #215f3f;
+    --green-600: #2e7d32;
+    --green-100: #ebf7ee;
+    --green-50: #f5fbf6;
+    --text: #1d2c24;
+    --muted: #5a6f66;
+    --border: #dce7de;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -5,8 +17,8 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f5f7f3;
-    color: #21312b;
+    background: var(--green-50);
+    color: var(--text);
 }
 
 button,
@@ -17,7 +29,7 @@ a {
 .admin-shell {
     display: flex;
     min-height: 100vh;
-    background: #eef4ec;
+    background: var(--green-50);
 }
 
 .sidebar {
@@ -25,7 +37,7 @@ a {
     top: 0;
     width: 260px;
     height: 100vh;
-    background: linear-gradient(180deg, #173c2c 0%, #10281f 100%);
+    background: var(--green-900);
     color: #ffffff;
     padding: 28px 20px;
     display: flex;
@@ -46,11 +58,11 @@ a {
     width: 46px;
     height: 46px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #ffd54f, #f6b100);
+    background: var(--sage, #dfeedd);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #173c2c;
+    color: var(--green-900);
     font-weight: 800;
 }
 
@@ -240,7 +252,7 @@ a {
 }
 
 .primary-btn {
-    background: linear-gradient(135deg, #2e7d32, #1b5e20);
+    background: var(--green-700);
     color: white;
 }
 
@@ -733,5 +745,158 @@ a {
     .primary-btn,
     .ghost-btn {
         flex: 1;
+    }
+}
+
+body.auth-checking .admin-shell {
+    visibility: hidden;
+}
+
+.signout-btn {
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.admin-login-page {
+    min-height: 100vh;
+    background-color: #f5fbf6;
+    background-image: linear-gradient(135deg, rgba(223, 238, 221, 0.72), transparent 56%);
+}
+
+.login-layout {
+    width: min(960px, calc(100% - 32px));
+    min-height: 100vh;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr minmax(300px, 420px);
+    align-items: center;
+    gap: clamp(32px, 8vw, 100px);
+    padding: 48px 0;
+}
+
+.login-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--green-800);
+    text-decoration: none;
+}
+
+.login-brand .brand-mark {
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+}
+
+.login-brand strong,
+.login-brand small {
+    display: block;
+}
+
+.login-brand strong {
+    font-size: 1.55rem;
+}
+
+.login-brand small {
+    color: var(--muted);
+}
+
+.login-panel {
+    padding: clamp(24px, 5vw, 40px);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 18px 45px rgba(16, 45, 29, 0.1);
+}
+
+.login-panel h1 {
+    margin: 0;
+    color: var(--text);
+    font-size: 2rem;
+}
+
+.login-intro {
+    margin: 8px 0 26px;
+    color: var(--muted);
+}
+
+#admin-login-form {
+    display: grid;
+    gap: 10px;
+}
+
+#admin-login-form label {
+    margin-top: 8px;
+    color: var(--text);
+    font-weight: 700;
+}
+
+#admin-login-form input {
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    background: #fff;
+}
+
+#admin-login-form input:focus-visible,
+.signout-btn:focus-visible {
+    outline: 3px solid rgba(46, 125, 50, 0.24);
+    outline-offset: 2px;
+}
+
+#admin-login-form .primary-btn {
+    width: 100%;
+    min-height: 46px;
+    margin-top: 6px;
+    border-radius: 6px;
+}
+
+#admin-login-form .primary-btn:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}
+
+.login-status {
+    min-height: 1.4em;
+    margin: 4px 0 0;
+    color: var(--muted);
+}
+
+.login-status.error {
+    color: #9d2d2d;
+}
+
+.storefront-link {
+    display: inline-block;
+    margin-top: 22px;
+    color: var(--green-700);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.panel,
+.stat-card,
+.summary-card,
+.sidebar-card,
+.nav-item,
+.primary-btn,
+.ghost-btn,
+.toolbar-row input,
+.toolbar-row select,
+.product-modal-content {
+    border-radius: 8px;
+}
+
+@media (max-width: 700px) {
+    .login-layout {
+        grid-template-columns: 1fr;
+        align-content: center;
+        gap: 28px;
+        max-width: 460px;
     }
 }
