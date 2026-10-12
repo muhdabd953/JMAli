@@ -32,9 +32,162 @@ const ORDER_STORAGE_KEY = "jmAliOrders";
 const STAFF_NOTIFICATION_STORAGE_KEY = "jmAliStaffNotifications";
 const PRODUCT_CATEGORIES = ["Vegetables", "Fruits", "Seafood"];
 const PRODUCTS_API_URL = "./api/products.php";
+const AUTH_API_URL = "./api/auth.php";
 const DEFAULT_PRODUCT_IMAGE = "./Images/products/fruit/red_apple.avif";
+const LANGUAGE_STORAGE_KEY = "jmAliLanguage";
+const UI_TRANSLATIONS = {
+    "JM Ali | Fresh Groceries": "JM Ali | Barangan Runcit Segar",
+    "Home": "Laman Utama", "Products": "Produk", "About": "Tentang Kami", "Contact": "Hubungi Kami",
+    "Log in": "Log masuk", "Sign up": "Daftar", "Log out": "Log keluar",
+    "Open shopping cart": "Buka troli", "Language": "Pilihan bahasa", "Shop categories": "Kategori belian",
+    "Main navigation": "Navigasi utama", "JM Ali Logo": "Logo JM Ali",
+    "Promotion items": "Barangan promosi", "All products": "Semua produk",
+    "Promotions": "Promosi", "Vegetables": "Sayur-sayuran", "Fruits": "Buah-buahan", "Fish": "Ikan",
+    "Ikan Bilis": "Ikan bilis", "More": "Lagi", "Search products": "Cari produk",
+    "Search products...": "Cari produk...", "Search": "Cari", "Shop highlights": "Sorotan kedai",
+    "Promotion Items": "Barangan Promosi", "View All Items": "Lihat Semua Barangan",
+    "Browse the catalog": "Lihat katalog", "All Products": "Semua Produk", "Category": "Kategori",
+    "All categories": "Semua kategori", "Fish & seafood": "Ikan & makanan laut", "Seafood": "Makanan laut",
+    "Sort by": "Susun mengikut", "Name: A to Z": "Nama: A hingga Z", "Name: Z to A": "Nama: Z hingga A",
+    "Price: low to high": "Harga: rendah ke tinggi", "Price: high to low": "Harga: tinggi ke rendah",
+    "No products available yet. Please check back soon.": "Produk belum tersedia. Sila semak semula nanti.",
+    "No promotion items available yet.": "Tiada barangan promosi buat masa ini.",
+    "No products match your search or category.": "Tiada produk sepadan dengan carian atau kategori anda.",
+    "Promotion items are temporarily unavailable.": "Barangan promosi tidak tersedia buat sementara waktu.",
+    "Products are temporarily unavailable.": "Produk tidak tersedia buat sementara waktu.",
+    "Why choose us": "Mengapa pilih kami", "Built for everyday freshness": "Kesegaran untuk setiap hari",
+    "Farm Fresh": "Segar dari ladang",
+    "We source quality produce from trusted growers and local suppliers.": "Kami mendapatkan hasil berkualiti daripada pekebun dan pembekal tempatan yang dipercayai.",
+    "Fast Delivery": "Penghantaran pantas",
+    "Receive your order quickly with dependable local delivery support.": "Pesanan anda dihantar dengan pantas melalui khidmat penghantaran tempatan yang boleh dipercayai.",
+    "Friendly Service": "Layanan mesra",
+    "Our team is ready to help with custom orders and product guidance.": "Pasukan kami sedia membantu dengan pesanan khas dan maklumat produk.",
+    "Get in touch": "Hubungi kami", "Contact JM Ali": "Hubungi JM Ali",
+    "Our location": "Lokasi kami", "Our Location": "Lokasi Kami", "Contact Us": "Hubungi kami",
+    "Open location in Google Maps": "Buka lokasi di Google Maps",
+    "Have a question or need help with an order? Call us directly.": "Ada soalan atau perlukan bantuan dengan pesanan? Hubungi kami terus.",
+    "Pembekal Sayur Segar": "Fresh Vegetable Supplier",
+    "Fresh groceries delivered with care.": "Barangan runcit segar dihantar dengan penuh perhatian.",
+    "© 2026 JM Ali. All Rights Reserved.": "© 2026 JM Ali. Hak cipta terpelihara.",
+    "Your Cart": "Troli Anda", "Close cart": "Tutup troli", "Total": "Jumlah",
+    "Continue Shopping": "Teruskan membeli-belah", "Send Order": "Hantar pesanan",
+    "Place Your Order": "Buat Pesanan", "Close order form": "Tutup borang pesanan",
+    "Full Name": "Nama penuh", "Your name": "Nama anda", "Phone Number": "Nombor telefon",
+    "Enter a valid Malaysian mobile number, for example 012-3456789.": "Masukkan nombor telefon bimbit Malaysia yang sah, contohnya 012-3456789.",
+    "Delivery Address": "Alamat penghantaran", "Your address": "Alamat anda", "Order Items": "Senarai barang",
+    "Example: 2 kg tomatoes, 1 kg carrots": "Contoh: 2 kg tomato, 1 kg lobak merah",
+    "Notes / Delivery Instructions": "Nota / Arahan penghantaran", "Optional": "Pilihan", "Cancel": "Batal",
+    "Confirm Your Details": "Sahkan Maklumat Anda", "Close order review": "Tutup semakan pesanan",
+    "Edit Details": "Edit maklumat", "Confirm & Send": "Sahkan & hantar", "Order Confirmed": "Pesanan Disahkan",
+    "Close confirmation": "Tutup pengesahan", "Added to Cart": "Ditambah ke troli", "Add to Cart": "Tambah ke troli",
+    "Product quantity": "Kuantiti produk", "Remove": "Buang",
+    "Your cart is empty. Add products or enter items manually.": "Troli anda kosong. Tambah produk atau masukkan barang secara manual.",
+    "Your cart is empty. Add products to begin your order.": "Troli anda kosong. Tambah produk untuk memulakan pesanan.",
+    "Fresh groceries": "Barangan runcit segar",
+    "Please enter your name, phone, address, and order items.": "Sila masukkan nama, nombor telefon, alamat dan senarai barang.",
+    "Please check your details before sending": "Sila semak maklumat anda sebelum menghantar",
+    "Customer": "Pelanggan", "Order": "Pesanan", "Notes": "Nota", "Order sent successfully": "Pesanan berjaya dihantar",
+    "Order number": "Nombor pesanan", "Date": "Tarikh", "Items": "Barang", "Delivery details": "Maklumat penghantaran",
+    "Our team will contact you to confirm delivery.": "Pasukan kami akan menghubungi anda untuk mengesahkan penghantaran.",
+    "Your cart is empty. Add a product before sending an order.": "Troli anda kosong. Tambah produk sebelum menghantar pesanan.",
+    "Create your account": "Cipta akaun anda", "Reset your password": "Tetapkan semula kata laluan",
+    "Choose a new password": "Pilih kata laluan baharu", "Create account": "Cipta akaun",
+    "Send reset link": "Hantar pautan tetapan semula", "Update password": "Kemas kini kata laluan",
+    "Close account dialog": "Tutup dialog akaun", "Account access": "Akses akaun", "Email address": "Alamat e-mel",
+    "Password": "Kata laluan", "Forgot password?": "Lupa kata laluan?", "Confirm new password": "Sahkan kata laluan baharu",
+    "I am signing up as": "Saya mendaftar sebagai", "Individual": "Individu", "Restaurant": "Restoran",
+    "Keep me signed in on this device until I log out": "Kekalkan saya log masuk pada peranti ini sehingga saya log keluar",
+    "Your passwords do not match.": "Kata laluan anda tidak sepadan.",
+    "Please submit a valid account request.": "Sila hantar permintaan akaun yang sah.",
+    "This request method is not supported.": "Kaedah permintaan ini tidak disokong.",
+    "Choose log in or sign up to continue.": "Pilih log masuk atau daftar untuk meneruskan.",
+    "Enter a valid email address.": "Masukkan alamat e-mel yang sah.",
+    "Your password must be at least 8 characters.": "Kata laluan mestilah sekurang-kurangnya 8 aksara.",
+    "Enter your name (up to 120 characters).": "Masukkan nama anda (maksimum 120 aksara).",
+    "Choose Individual or Restaurant.": "Pilih Individu atau Restoran.",
+    "An account with this email already exists. Log in instead.": "Akaun dengan e-mel ini sudah wujud. Sila log masuk.",
+    "Your account could not be created. Please try again.": "Akaun anda tidak dapat dicipta. Sila cuba lagi.",
+    "Email or password is incorrect.": "E-mel atau kata laluan tidak betul.",
+    "This reset link is invalid or has expired.": "Pautan tetapan semula ini tidak sah atau telah tamat tempoh.",
+    "Password reset email is not configured yet. Please contact JM Ali.": "E-mel tetapan semula kata laluan belum dikonfigurasi. Sila hubungi JM Ali.",
+    "If an account exists for this email, password reset instructions have been sent.": "Jika akaun dengan e-mel ini wujud, arahan tetapan semula kata laluan telah dihantar.",
+    "Your password has been updated. You can now log in.": "Kata laluan anda telah dikemas kini. Anda kini boleh log masuk.",
+    "Account service is unavailable. Please try again later.": "Perkhidmatan akaun tidak tersedia. Sila cuba lagi nanti.",
+    "Account request failed. Please try again.": "Permintaan akaun gagal. Sila cuba lagi."
+};
+const MALAY_TO_ENGLISH = Object.fromEntries(Object.entries(UI_TRANSLATIONS).map(([english, malay]) => [malay, english]));
+let currentLanguage = (() => {
+    try {
+        return localStorage.getItem(LANGUAGE_STORAGE_KEY) === "ms" ? "ms" : "en";
+    } catch (error) {
+        return "en";
+    }
+})();
 const cartItems = [];
+let storefrontProducts = [];
 let pendingOrder;
+
+function localizedText(value) {
+    if (currentLanguage === "ms") {
+        if (value.startsWith("Quantity for ")) {
+            return `Kuantiti untuk ${value.slice("Quantity for ".length)}`;
+        }
+        return UI_TRANSLATIONS[value] || value;
+    }
+    if (value.startsWith("Kuantiti untuk ")) {
+        return `Quantity for ${value.slice("Kuantiti untuk ".length)}`;
+    }
+    return MALAY_TO_ENGLISH[value] || value;
+}
+
+function translatePage() {
+    document.documentElement.lang = currentLanguage;
+    document.title = localizedText("JM Ali | Fresh Groceries");
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+        const text = node.nodeValue;
+        const trimmed = text.trim();
+        if (trimmed) {
+            const translated = localizedText(trimmed);
+            if (translated !== trimmed) {
+                node.nodeValue = text.replace(trimmed, translated);
+            }
+        }
+    }
+
+    document.querySelectorAll("[placeholder], [title], [aria-label], img[alt]").forEach((element) => {
+        ["placeholder", "title", "aria-label", "alt"].forEach((attribute) => {
+            if (element.hasAttribute(attribute)) {
+                element.setAttribute(attribute, localizedText(element.getAttribute(attribute)));
+            }
+        });
+    });
+    document.querySelectorAll("[data-language]").forEach((button) => {
+        const selected = button.dataset.language === currentLanguage;
+        button.setAttribute("aria-pressed", String(selected));
+        button.classList.toggle("active", selected);
+    });
+}
+
+function setLanguage(language) {
+    currentLanguage = language === "ms" ? "ms" : "en";
+    try {
+        localStorage.setItem(LANGUAGE_STORAGE_KEY, currentLanguage);
+    } catch (error) {
+        console.warn("Could not save the language preference.", error);
+    }
+    translatePage();
+}
+
+function initLanguageSwitch() {
+    document.querySelectorAll("[data-language]").forEach((button) => {
+        button.addEventListener("click", () => setLanguage(button.dataset.language));
+    });
+    translatePage();
+    const languageObserver = new MutationObserver(translatePage);
+    languageObserver.observe(document.body, { childList: true, subtree: true });
+}
 
 const defaultOrders = [
     { id: "#1048", customer: "Rahim", items: "2 x Mango, 1 x Apple", date: "2026-08-16", status: "Paid", total: "RM 94.00" },
@@ -64,6 +217,7 @@ function mapDatabaseProduct(product) {
         id: product.id,
         name: product.name,
         price: `RM ${Number(product.current_price).toFixed(2)} / ${product.unit}`,
+        priceValue: Number(product.current_price),
         image: product.image_url,
         category: normalizeCategory(product.category)
     };
@@ -89,23 +243,11 @@ function createProductCard(product, isAdmin = false) {
     card.innerHTML = `
         <img src="${product.image}" alt="${product.name}">
         <div class="card-body">
+            <span class="product-category-label">${product.category}</span>
             <h3>${product.name}</h3>
             <p>${product.price}</p>
             <input class="product-quantity" type="number" min="1" value="1" aria-label="Quantity for ${product.name}">
             ${isAdmin ? "" : '<button type="button">Add to Cart</button>'}
-        </div>
-    `;
-    return card;
-}
-
-function createHeroProductCard(product, isMuted = false) {
-    const card = document.createElement("div");
-    card.className = `hero-product-card${isMuted ? " muted" : ""}`;
-    card.innerHTML = `
-        <img src="${product.image}" alt="${product.name}">
-        <div>
-            <h3>${product.name}</h3>
-            <p>${product.price}</p>
         </div>
     `;
     return card;
@@ -136,59 +278,336 @@ function openProductModalForEdit() {
 }
 
 async function renderStorefrontProducts() {
-    const featuredContainer = document.getElementById("featured-products");
-    const heroProducts = document.getElementById("hero-products");
-    const categoryMapping = {
-        vegetables: document.querySelector("#vegetables .product-grid"),
-        fruits: document.querySelector("#fruits .product-grid"),
-        seafood: document.querySelector("#seafood .product-grid")
-    };
+    const promotionContainer = document.getElementById("promotion-products");
+    const allProductsContainer = document.getElementById("all-products-grid");
 
-    if (!featuredContainer) {
+    if (!promotionContainer || !allProductsContainer) {
         return;
     }
 
     try {
-        const products = (await getProductsFromDatabase()).map(mapDatabaseProduct);
-        if (heroProducts) {
-            heroProducts.innerHTML = "";
-            products.slice(0, 2).forEach((product, index) => {
-                heroProducts.appendChild(createHeroProductCard(product, index === 1));
-            });
-            if (!products.length) {
-                heroProducts.innerHTML = '<p class="hero-empty-products">No products available yet.</p>';
-            }
-        }
-        featuredContainer.innerHTML = "";
-
-        if (!products.length) {
-            featuredContainer.innerHTML = '<p class="empty-products">No products available yet. Please check back soon.</p>';
-        } else {
-            products.forEach((product) => featuredContainer.appendChild(createProductCard(product)));
-        }
-
-        Object.entries(categoryMapping).forEach(([categoryKey, grid]) => {
-            if (!grid) {
-                return;
-            }
-
-            const category = categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1);
-            const categoryProducts = products.filter((product) => product.category === category);
-            grid.innerHTML = categoryProducts.length
-                ? ""
-                : `<p class="empty-products">No ${categoryKey} available yet.</p>`;
-
-            categoryProducts.forEach((product) => grid.appendChild(createProductCard(product)));
-        });
-
+        storefrontProducts = (await getProductsFromDatabase()).map(mapDatabaseProduct);
+        renderPromotionItems();
+        renderAllProducts();
         bindProductQuickOrderButtons();
     } catch (error) {
         console.error("Could not load products from the database:", error);
-        if (heroProducts) {
-            heroProducts.innerHTML = '<p class="hero-empty-products">Products are temporarily unavailable.</p>';
-        }
-        featuredContainer.innerHTML = '<p class="empty-products">Products are temporarily unavailable.</p>';
+        promotionContainer.innerHTML = '<p class="empty-products">Promotion items are temporarily unavailable.</p>';
+        allProductsContainer.innerHTML = '<p class="empty-products">Products are temporarily unavailable.</p>';
     }
+}
+
+function getSortedStorefrontProducts() {
+    const searchTerm = (document.getElementById("storefront-search-input")?.value || "").trim().toLowerCase();
+    const category = document.getElementById("storefront-category-filter")?.value || "All";
+    const sortOrder = document.getElementById("storefront-sort")?.value || "name-asc";
+    const products = storefrontProducts.filter((product) => {
+        const matchesSearch = product.name.toLowerCase().includes(searchTerm);
+        const matchesCategory = category === "All" || product.category === category;
+        return matchesSearch && matchesCategory;
+    });
+
+    products.sort((first, second) => {
+        if (sortOrder === "name-desc") {
+            return second.name.localeCompare(first.name);
+        }
+        if (sortOrder === "category") {
+            return first.category.localeCompare(second.category) || first.name.localeCompare(second.name);
+        }
+        if (sortOrder === "price-asc") {
+            return first.priceValue - second.priceValue;
+        }
+        if (sortOrder === "price-desc") {
+            return second.priceValue - first.priceValue;
+        }
+        return first.name.localeCompare(second.name);
+    });
+
+    return products;
+}
+
+function renderPromotionItems() {
+    const container = document.getElementById("promotion-products");
+    if (!container) {
+        return;
+    }
+
+    const promotionItems = storefrontProducts.slice(0, 4);
+    container.innerHTML = promotionItems.length
+        ? ""
+        : '<p class="empty-products">No promotion items available yet.</p>';
+    promotionItems.forEach((product) => container.appendChild(createProductCard(product)));
+}
+
+function renderAllProducts() {
+    const container = document.getElementById("all-products-grid");
+    if (!container) {
+        return;
+    }
+
+    const products = getSortedStorefrontProducts();
+    container.innerHTML = products.length
+        ? ""
+        : '<p class="empty-products">No products match your search or category.</p>';
+    products.forEach((product) => container.appendChild(createProductCard(product)));
+    bindProductQuickOrderButtons();
+}
+
+function initStorefrontControls() {
+    const searchForm = document.getElementById("storefront-search");
+    const categoryFilter = document.getElementById("storefront-category-filter");
+    const sortSelect = document.getElementById("storefront-sort");
+
+    searchForm?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        renderAllProducts();
+        document.getElementById("all-products")?.scrollIntoView({ behavior: "smooth" });
+    });
+    categoryFilter?.addEventListener("change", renderAllProducts);
+    sortSelect?.addEventListener("change", renderAllProducts);
+
+    document.querySelectorAll("[data-category-filter]").forEach((shortcut) => {
+        shortcut.addEventListener("click", () => {
+            if (categoryFilter) {
+                categoryFilter.value = shortcut.dataset.categoryFilter || "All";
+                renderAllProducts();
+            }
+        });
+    });
+}
+
+function setAuthStatus(message, isError = false) {
+    const status = document.getElementById("auth-status");
+    if (!status) {
+        return;
+    }
+
+    status.textContent = localizedText(message);
+    status.classList.toggle("error", isError);
+}
+
+function renderAuthUser(user) {
+    const actions = document.getElementById("auth-actions");
+    const userLabel = document.getElementById("auth-user");
+    const logoutButton = document.getElementById("auth-logout");
+
+    if (!actions || !userLabel || !logoutButton) {
+        return;
+    }
+
+    actions.hidden = Boolean(user);
+    userLabel.hidden = !user;
+    logoutButton.hidden = !user;
+    if (user) {
+        const accountType = localizedText(user.account_type === "restaurant" ? "Restaurant" : "Individual");
+        userLabel.textContent = `${user.full_name} · ${accountType}`;
+    }
+}
+
+async function requestCustomerAuth(method, data = {}) {
+    const response = await fetch(AUTH_API_URL, {
+        method,
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: method === "GET" ? undefined : JSON.stringify({ ...data, language: currentLanguage })
+    });
+    const result = await response.json();
+
+    if (!response.ok) {
+        throw new Error(result.message || "Account request failed. Please try again.");
+    }
+
+    return result;
+}
+
+function initCustomerAuth() {
+    const modal = document.getElementById("auth-modal");
+    const form = document.getElementById("auth-form");
+    const tabs = document.getElementById("auth-tabs");
+    const nameField = document.getElementById("auth-name-field");
+    const emailField = document.getElementById("auth-email-field");
+    const passwordField = document.getElementById("auth-password-field");
+    const confirmPasswordField = document.getElementById("auth-confirm-password-field");
+    const accountTypeField = document.getElementById("auth-account-type-field");
+    const nameInput = document.getElementById("auth-name");
+    const emailInput = document.getElementById("auth-email");
+    const passwordInput = document.getElementById("auth-password");
+    const confirmPasswordInput = document.getElementById("auth-confirm-password");
+    const submitButton = document.getElementById("auth-submit");
+    const loginTab = document.getElementById("auth-tab-login");
+    const signupTab = document.getElementById("auth-tab-signup");
+    const forgotPasswordButton = document.getElementById("auth-forgot-password");
+    let mode = "login";
+    let closeTimer;
+    let resetToken = "";
+
+    if (!modal || !form) {
+        return;
+    }
+
+    const closeModal = () => {
+        if (modal.classList.contains("hidden")) {
+            return;
+        }
+
+        modal.classList.remove("is-open");
+        modal.classList.add("is-closing");
+        modal.setAttribute("aria-hidden", "true");
+        window.clearTimeout(closeTimer);
+
+        const finishClose = () => {
+            modal.classList.add("hidden");
+            modal.classList.remove("is-closing");
+            form.reset();
+            document.getElementById("auth-remember").checked = true;
+            setAuthStatus("");
+            resetToken = "";
+        };
+        closeTimer = window.setTimeout(
+            finishClose,
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 260
+        );
+    };
+
+    const setMode = (newMode) => {
+        mode = newMode;
+        const isSignup = mode === "signup";
+        const isResetRequest = mode === "reset-request";
+        const isResetPassword = mode === "reset-password";
+        const isLogin = mode === "login";
+        nameField.hidden = !isSignup;
+        emailField.hidden = isResetPassword;
+        passwordField.hidden = isResetRequest;
+        confirmPasswordField.hidden = !isResetPassword;
+        accountTypeField.hidden = !isSignup;
+        tabs.hidden = isResetRequest || isResetPassword;
+        forgotPasswordButton.hidden = !isLogin;
+        document.querySelector(".remember-device").hidden = !isLogin && !isSignup;
+        nameInput.required = isSignup;
+        emailInput.required = !isResetPassword;
+        passwordInput.required = !isResetRequest;
+        confirmPasswordInput.required = isResetPassword;
+        document.getElementById("auth-account-type").required = isSignup;
+        passwordInput.autocomplete = isSignup || isResetPassword ? "new-password" : "current-password";
+        document.getElementById("auth-title").textContent = localizedText(isSignup
+            ? "Create your account"
+            : isResetRequest
+                ? "Reset your password"
+                : isResetPassword
+                    ? "Choose a new password"
+                    : "Log in");
+        submitButton.textContent = localizedText(isSignup
+            ? "Create account"
+            : isResetRequest
+                ? "Send reset link"
+                : isResetPassword
+                    ? "Update password"
+                    : "Log in");
+        loginTab.setAttribute("aria-selected", String(isLogin));
+        signupTab.setAttribute("aria-selected", String(isSignup));
+        loginTab.classList.toggle("active", isLogin);
+        signupTab.classList.toggle("active", isSignup);
+        setAuthStatus("");
+    };
+
+    const openModal = (newMode) => {
+        window.clearTimeout(closeTimer);
+        setMode(newMode);
+        modal.classList.remove("hidden", "is-closing");
+        modal.setAttribute("aria-hidden", "false");
+        void modal.offsetWidth;
+        modal.classList.add("is-open");
+        (newMode === "reset-password" ? passwordInput : emailInput).focus();
+    };
+
+    document.getElementById("open-login").addEventListener("click", () => openModal("login"));
+    document.getElementById("open-signup").addEventListener("click", () => openModal("signup"));
+    document.getElementById("close-auth").addEventListener("click", closeModal);
+    loginTab.addEventListener("click", () => setMode("login"));
+    signupTab.addEventListener("click", () => setMode("signup"));
+    forgotPasswordButton.addEventListener("click", () => setMode("reset-request"));
+    modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !modal.classList.contains("hidden")) {
+            closeModal();
+        }
+    });
+
+    document.getElementById("auth-logout").addEventListener("click", async () => {
+        try {
+            await requestCustomerAuth("POST", { action: "logout" });
+            renderAuthUser(null);
+        } catch (error) {
+            window.alert(localizedText(error.message));
+        }
+    });
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        submitButton.disabled = true;
+        setAuthStatus("");
+
+        const data = { email: emailInput.value.trim() };
+        if (mode === "signup") {
+            data.action = "signup";
+            data.password = passwordInput.value;
+            data.remember = document.getElementById("auth-remember").checked;
+            data.full_name = nameInput.value.trim();
+            data.account_type = document.getElementById("auth-account-type").value;
+        } else if (mode === "login") {
+            data.action = "login";
+            data.password = passwordInput.value;
+            data.remember = document.getElementById("auth-remember").checked;
+        } else if (mode === "reset-request") {
+            data.action = "request_reset";
+        } else {
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                setAuthStatus("Your passwords do not match.", true);
+                submitButton.disabled = false;
+                return;
+            }
+            data.action = "reset_password";
+            data.password = passwordInput.value;
+            data.token = resetToken;
+        }
+
+        try {
+            const result = await requestCustomerAuth("POST", data);
+            if (mode === "reset-request") {
+                setAuthStatus(result.message);
+            } else if (mode === "reset-password") {
+                resetToken = "";
+                form.reset();
+                setMode("login");
+                setAuthStatus(result.message);
+            } else {
+                renderAuthUser(result.user);
+                closeModal();
+            }
+        } catch (error) {
+            setAuthStatus(error.message, true);
+        } finally {
+            submitButton.disabled = false;
+        }
+    });
+
+    setMode("login");
+    const currentUrl = new URL(window.location.href);
+    resetToken = currentUrl.searchParams.get("reset") || "";
+    if (resetToken) {
+        currentUrl.searchParams.delete("reset");
+        window.history.replaceState(null, "", `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`);
+        openModal("reset-password");
+    }
+    requestCustomerAuth("GET").then((result) => {
+        renderAuthUser(result.user || null);
+    }).catch(() => {
+        renderAuthUser(null);
+    });
 }
 
 // ================================
@@ -622,7 +1041,7 @@ function initCustomerOrderForm() {
         const orderTotal = getCartTotal();
 
         if (!customerName || !phone || !address || !items) {
-            alert("Please enter your name, phone, address, and order items.");
+            alert(localizedText("Please enter your name, phone, address, and order items."));
             return;
         }
 
@@ -646,7 +1065,7 @@ function initCustomerOrderForm() {
         };
 
         if (!isValidPhoneNumber(phone)) {
-            document.getElementById("customer-phone").setCustomValidity("Enter a valid Malaysian mobile number, for example 012-3456789.");
+            document.getElementById("customer-phone").setCustomValidity(localizedText("Enter a valid Malaysian mobile number, for example 012-3456789."));
             document.getElementById("customer-phone").reportValidity();
             return;
         }
@@ -734,7 +1153,7 @@ function initCart() {
     const closeCart = () => cartModal.classList.add("hidden");
     const openDetails = () => {
         if (!cartItems.length) {
-            alert("Your cart is empty. Add a product before sending an order.");
+            alert(localizedText("Your cart is empty. Add a product before sending an order."));
             return;
         }
         closeCart();
@@ -1012,6 +1431,9 @@ if (document.getElementById("open-cart")) {
     updateCartDisplay();
 }
 
+initLanguageSwitch();
+initStorefrontControls();
+initCustomerAuth();
 bindProductQuickOrderButtons();
 window.addEventListener("storage", (event) => {
     if (event.key === ORDER_STORAGE_KEY || event.key === STAFF_NOTIFICATION_STORAGE_KEY) {

@@ -13,160 +13,94 @@
                 <img src="./Images/logo/logo.png" alt="JM Ali Logo" />
                 <div>
                     <h1>JM Ali</h1>
-                    <p>Pembekal Sayur Segar</p>
                 </div>
             </div>
 
             <nav class="main-nav" aria-label="Main navigation">
                 <a href="#home">Home</a>
-                <a href="#products">Products</a>
+                <a href="#all-products">Products</a>
                 <a href="#about">About</a>
                 <a href="#contact">Contact</a>
             </nav>
 
-            <button id="open-cart" class="cart-button" type="button" aria-label="Open shopping cart" title="Open shopping cart">🛒 <span id="cart-count">0</span></button>
+            <div class="header-utilities">
+                <div class="language-switch" role="group" aria-label="Language">
+                    <button type="button" data-language="en" aria-pressed="true">EN</button>
+                    <button type="button" data-language="ms" aria-pressed="false">Bahasa</button>
+                </div>
+                <div id="auth-actions" class="auth-actions">
+                    <button id="open-login" class="auth-button" type="button">Log in</button>
+                    <button id="open-signup" class="auth-button auth-signup" type="button">Sign up</button>
+                </div>
+                <span id="auth-user" class="auth-user" hidden></span>
+                <button id="auth-logout" class="auth-button" type="button" hidden>Log out</button>
+                <button id="open-cart" class="cart-button" type="button" aria-label="Open shopping cart" title="Open shopping cart">🛒 <span id="cart-count">0</span></button>
+            </div>
         </div>
     </header>
 
+    <nav class="category-shortcuts" aria-label="Shop categories">
+        <div class="container category-shortcuts-inner">
+            <a href="#promotions">Promotions</a>
+            <a href="#all-products" data-category-filter="Vegetables">Vegetables</a>
+            <a href="#all-products" data-category-filter="Fruits">Fruits</a>
+            <a href="#all-products" data-category-filter="Seafood">Fish</a>
+            <a href="#all-products" data-category-filter="Seafood">Ikan Bilis</a>
+            <a href="#all-products" data-category-filter="All">More</a>
+        </div>
+    </nav>
+
+    <form id="storefront-search" class="store-search container" role="search" aria-label="Search products">
+        <label class="visually-hidden" for="storefront-search-input">Search products</label>
+        <input id="storefront-search-input" type="search" placeholder="Search products..." />
+        <button type="submit">Search</button>
+    </form>
+
     <main id="home">
-        <section class="hero">
-            <div class="container hero-inner">
-                <div class="hero-copy">
-                    <span class="eyebrow">Fresh market everyday</span>
-                    <h2>Quality groceries for your home and family.</h2>
-                    <p>Fruits, vegetables, seafood, and household essentials delivered fresh from trusted farm suppliers.</p>
-
-                    <div class="hero-actions">
-                        <a href="#products" class="primary-btn">Browse Products</a>
-                        <button id="open-customer-order-secondary" class="secondary-btn" type="button">Contact Us</button>
-                    </div>
-
-                    <ul class="hero-meta" aria-label="Store highlights">
-                        <li>Same-day delivery</li>
-                        <li>Freshly sourced</li>
-                        <li>Affordable pricing</li>
-                    </ul>
-                </div>
-
-                <div class="hero-panel" aria-label="Daily market highlight">
-                    <div class="hero-badge">Today’s picks</div>
-                    <div id="hero-products" class="hero-product-list">
-                        <p class="hero-empty-products">No products available yet.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="trust-strip">
-            <div class="container trust-grid">
-                <div>
-                    <strong>500+</strong>
-                    <span>Happy customers</span>
-                </div>
-                <div>
-                    <strong>Daily</strong>
-                    <span>Fresh stock updates</span>
-                </div>
-                <div>
-                    <strong>4.9/5</strong>
-                    <span>Customer rating</span>
-                </div>
-                <div>
-                    <strong>24/7</strong>
-                    <span>Order support</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="customer-order-cta container">
-            <div>
-                <span class="eyebrow light">Quick order</span>
-                <h2>Order from JM Ali</h2>
-                <p>Send your details and item list, and our team will contact you as soon as possible.</p>
-            </div>
-            <button id="open-customer-order-cta" class="primary-btn" type="button">Place Order</button>
-        </section>
-
-        <section class="categories container" id="products">
-            <div class="section-heading">
-                <span class="eyebrow">Shop by category</span>
-                <h2>Fresh favorites for every table</h2>
-            </div>
-
-            <div class="category-container">
-                <a href="#vegetables" class="category-link">
-                    <article class="category-card">
-                        <span class="category-icon">🥬</span>
-                        <h3>Vegetables</h3>
-                        <p>Fresh vegetables every day.</p>
-                    </article>
-                </a>
-
-                <a href="#fruits" class="category-link">
-                    <article class="category-card">
-                        <span class="category-icon">🍎</span>
-                        <h3>Fruits</h3>
-                        <p>Sweet and fresh fruits.</p>
-                    </article>
-                </a>
-
-                <a href="#seafood" class="category-link">
-                    <article class="category-card">
-                        <span class="category-icon">🐟</span>
-                        <h3>Seafood</h3>
-                        <p>Fresh seafood daily.</p>
-                    </article>
-                </a>
-            </div>
-        </section>
-
-        <section class="featured container">
+        <section id="promotions" class="featured container">
             <div class="section-heading split-heading">
                 <div>
-                    <span class="eyebrow">Featured products</span>
-                    <h2>Popular picks this week</h2>
+                    <span class="eyebrow">Shop highlights</span>
+                    <h2>Promotion Items</h2>
                 </div>
-                <a href="#products" class="text-link">View all items</a>
+                <a href="#all-products" class="text-link">View All Items</a>
             </div>
 
-            <div id="featured-products" class="category-container" aria-label="Featured products">
+            <div id="promotion-products" class="product-grid" aria-label="Promotion items">
                 <p class="empty-products">No products available yet. Please check back soon.</p>
             </div>
         </section>
 
-        <section id="vegetables" class="product-section container">
+        <section id="all-products" class="product-section container">
             <div class="section-heading split-heading">
                 <div>
-                    <span class="eyebrow">Vegetables</span>
-                    <h2>Garden goodness</h2>
+                    <span class="eyebrow">Browse the catalog</span>
+                    <h2>All Products</h2>
+                </div>
+                <div class="catalog-controls">
+                    <label>
+                        Category
+                        <select id="storefront-category-filter">
+                            <option value="All">All categories</option>
+                            <option value="Vegetables">Vegetables</option>
+                            <option value="Fruits">Fruits</option>
+                            <option value="Seafood">Fish &amp; seafood</option>
+                        </select>
+                    </label>
+                    <label>
+                        Sort by
+                        <select id="storefront-sort">
+                            <option value="name-asc">Name: A to Z</option>
+                            <option value="name-desc">Name: Z to A</option>
+                            <option value="category">Category</option>
+                            <option value="price-asc">Price: low to high</option>
+                            <option value="price-desc">Price: high to low</option>
+                        </select>
+                    </label>
                 </div>
             </div>
-            <div class="product-grid">
-                <p class="empty-products">No vegetables available yet.</p>
-            </div>
-        </section>
-
-        <section id="fruits" class="product-section container">
-            <div class="section-heading split-heading">
-                <div>
-                    <span class="eyebrow">Fruits</span>
-                    <h2>Sweet seasonal picks</h2>
-                </div>
-            </div>
-            <div class="product-grid">
-                <p class="empty-products">No fruits available yet.</p>
-            </div>
-        </section>
-
-        <section id="seafood" class="product-section container">
-            <div class="section-heading split-heading">
-                <div>
-                    <span class="eyebrow">Seafood</span>
-                    <h2>Fresh from the coast</h2>
-                </div>
-            </div>
-            <div class="product-grid">
-                <p class="empty-products">No seafood available yet.</p>
+            <div id="all-products-grid" class="product-grid" aria-label="All products" aria-live="polite">
+                <p class="empty-products">No products available yet. Please check back soon.</p>
             </div>
         </section>
 
@@ -196,28 +130,30 @@
         </section>
     </main>
 
-    <section class="contact-section container" id="contact">
-        <div class="section-heading">
-            <span class="eyebrow">Get in touch</span>
-            <h2>Contact JM Ali</h2>
-        </div>
-        <div class="contact-details">
-            <p>Have a question or need help with an order? Call us directly.</p>
-            <a class="contact-phone" href="tel:+60102596876">+60 10-259 6876</a>
-        </div>
-    </section>
-
-    <footer class="site-footer">
-        <div class="container footer-inner">
-            <div>
-                <h3>JM Ali</h3>
-                <p>Pembekal Sayur Segar</p>
+    <footer class="site-footer" id="contact">
+        <div class="container">
+            <div class="footer-contact-grid">
+                <section class="footer-info">
+                    <h2>Our Location</h2>
+                    <a class="footer-info-link" href="https://maps.app.goo.gl/zCE2KezQLbjkmcH18?g_st=aw" target="_blank" rel="noopener noreferrer" aria-label="Open location in Google Maps">Pasar Segar JM Ali</a>
+                    <address>Plot 3, Taman Setapak, 53300 Kuala Lumpur</address>
+                </section>
+                <section class="footer-info footer-contact">
+                    <h2>Contact Us</h2>
+                    <a class="footer-info-link" href="tel:+60102596876">+60 10-259 6876</a>
+                </section>
             </div>
-            <div>
-                <p>Fresh groceries delivered with care.</p>
-            </div>
-            <div>
-                <p>© 2026 JM Ali. All Rights Reserved.</p>
+            <div class="footer-inner">
+                <div>
+                    <h3>JM Ali</h3>
+                    <p>Pembekal Sayur Segar</p>
+                </div>
+                <div>
+                    <p>Fresh groceries delivered with care.</p>
+                </div>
+                <div>
+                    <p>© 2026 JM Ali. All Rights Reserved.</p>
+                </div>
             </div>
         </div>
     </footer>
@@ -309,6 +245,55 @@
     <div id="cart-toast" class="cart-toast" role="status" aria-live="polite" aria-hidden="true">
         <span class="cart-toast-check" aria-hidden="true">✓</span>
         <span>Added to Cart</span>
+    </div>
+
+    <div id="auth-modal" class="customer-order-modal hidden" aria-hidden="true">
+        <section class="customer-order-form-panel auth-panel" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+            <div class="customer-order-header">
+                <h2 id="auth-title">Log in</h2>
+                <button type="button" id="close-auth" class="close-order-modal" aria-label="Close account dialog">×</button>
+            </div>
+            <div id="auth-tabs" class="auth-tabs" role="tablist" aria-label="Account access">
+                <button id="auth-tab-login" type="button" role="tab" aria-selected="true">Log in</button>
+                <button id="auth-tab-signup" type="button" role="tab" aria-selected="false">Sign up</button>
+            </div>
+            <form id="auth-form">
+                <div class="auth-form-fields">
+                    <label id="auth-name-field" hidden>
+                        Full name
+                        <input id="auth-name" name="name" type="text" maxlength="120" autocomplete="name" />
+                    </label>
+                    <label id="auth-email-field">
+                        Email address
+                        <input id="auth-email" name="email" type="email" maxlength="254" autocomplete="email" required />
+                    </label>
+                    <label id="auth-password-field">
+                        Password
+                        <input id="auth-password" name="password" type="password" minlength="8" autocomplete="current-password" required />
+                    </label>
+                    <button id="auth-forgot-password" class="auth-forgot-link" type="button">Forgot password?</button>
+                    <label id="auth-confirm-password-field" hidden>
+                        Confirm new password
+                        <input id="auth-confirm-password" type="password" minlength="8" autocomplete="new-password" />
+                    </label>
+                    <label id="auth-account-type-field" hidden>
+                        I am signing up as
+                        <select id="auth-account-type" name="account_type">
+                            <option value="individual">Individual</option>
+                            <option value="restaurant">Restaurant</option>
+                        </select>
+                    </label>
+                    <label class="remember-device">
+                        <input id="auth-remember" type="checkbox" checked />
+                        Keep me signed in on this device until I log out
+                    </label>
+                </div>
+                <p id="auth-status" class="auth-status" role="status" aria-live="polite"></p>
+                <div class="customer-order-actions">
+                    <button id="auth-submit" type="submit" class="primary-order-button">Log in</button>
+                </div>
+            </form>
+        </section>
     </div>
 
     <script src="./js/script.js"></script>
